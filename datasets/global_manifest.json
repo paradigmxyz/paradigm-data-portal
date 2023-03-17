@@ -1,0 +1,172 @@
+{
+    "datasets": {
+        "ethereum_contracts": {
+            "datatype": "contracts",
+            "description": "all historical contract deployments",
+            "n_bytes": 7051921809,
+            "n_files": 17,
+            "name": "ethereum_contracts",
+            "network": "ethereum",
+            "schema": {
+                "description": "all historical contract deployments",
+                "tables": {
+                    "contracts": {
+                        "columns": [
+                            {
+                                "description": "block number when contract was created",
+                                "name": "block_number",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "description": "increased by 1 for each contract created in block",
+                                "name": "create_index",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "description": "hash of transaction that created contract",
+                                "name": "transaction_hash",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "address of deployed contract",
+                                "name": "contract_address",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "EOA that deployed the contract",
+                                "name": "deployer",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "the `from` field in the creation trace",
+                                "name": "factory",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "initialization bytecode of contract",
+                                "name": "init_code",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "bytecode of contract",
+                                "name": "code",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "keccak hash of contract initialization code",
+                                "name": "init_code_hash",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "keccak hash of contract bytecode",
+                                "name": "code_hash",
+                                "type": "BINARY"
+                            }
+                        ],
+                        "description": "each row corresponds to a contract create trace"
+                    }
+                }
+            },
+            "version": "1.0.0"
+        },
+        "ethereum_native_transfers": {
+            "datatype": "native_transfers",
+            "description": "all native transfers in similar format to ERC20 Transfers (excluding tx fees)",
+            "n_bytes": 65501766122,
+            "n_files": 84,
+            "name": "ethereum_native_transfers",
+            "network": "ethereum",
+            "schema": {
+                "description": "all native transfers in similar format to ERC20 Transfers (excluding tx fees)",
+                "tables": {
+                    "native_transfers": {
+                        "columns": [
+                            {
+                                "description": "block number where native token was transfered",
+                                "name": "block_number",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "description": "increased by 1 for each native transfer in block",
+                                "name": "transfer_index",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "description": "hash of transaction that contains transfer",
+                                "name": "transaction_hash",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "address that native token is transferred to",
+                                "name": "to_address",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "address that native token is transferred from",
+                                "name": "from_address",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "amount of native token transferred",
+                                "name": "value",
+                                "type": "BINARY"
+                            }
+                        ],
+                        "description": "each row corresponds to a trace that transfers native token"
+                    }
+                }
+            },
+            "version": "1.0.0"
+        },
+        "ethereum_slots": {
+            "datatype": "slots",
+            "description": "all slots of each contract, including historical usage metadata",
+            "n_bytes": 41212724800,
+            "n_files": 16,
+            "name": "ethereum_slots",
+            "network": "ethereum",
+            "schema": {
+                "description": "all slots of each contract, including historical usage metadata",
+                "tables": {
+                    "slots": {
+                        "columns": [
+                            {
+                                "description": "contract of slot",
+                                "name": "contract_address",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "address of slot",
+                                "name": "slot",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "last data stored in slot",
+                                "name": "value",
+                                "type": "BINARY"
+                            },
+                            {
+                                "description": "first block where slot was used",
+                                "name": "first_updated_block",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "description": "last block where slot was updated",
+                                "name": "last_updated_block",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "description": "number of transactions that updated slot",
+                                "name": "n_tx_updates",
+                                "type": "INTEGER"
+                            }
+                        ],
+                        "description": "each row corresponds to a slot of a contract"
+                    }
+                }
+            },
+            "version": "1.0.0"
+        }
+    },
+    "version": "1.0.0"
+}

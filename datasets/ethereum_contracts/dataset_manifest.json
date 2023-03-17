@@ -1,0 +1,154 @@
+{
+    "datatype": "contracts",
+    "description": "all historical contract deployments",
+    "files": [
+        {
+            "hash": "755f40506dccfee0849f00d79e4336db",
+            "n_bytes": 3107682,
+            "name": "ethereum_contracts__v1_0_0__00000000_to_00999999.parquet"
+        },
+        {
+            "hash": "c77f1732bc2619e6814e4d2fe723b0c7",
+            "n_bytes": 13713368,
+            "name": "ethereum_contracts__v1_0_0__01000000_to_01999999.parquet"
+        },
+        {
+            "hash": "10e8590e91f44bdcb39b9fa7b0433ce9",
+            "n_bytes": 26068725,
+            "name": "ethereum_contracts__v1_0_0__02000000_to_02999999.parquet"
+        },
+        {
+            "hash": "0852e9c89d13e3af3c1defb28e6eb85c",
+            "n_bytes": 87348694,
+            "name": "ethereum_contracts__v1_0_0__03000000_to_03999999.parquet"
+        },
+        {
+            "hash": "c07dec107c820804e48ed613454d0095",
+            "n_bytes": 310223347,
+            "name": "ethereum_contracts__v1_0_0__04000000_to_04999999.parquet"
+        },
+        {
+            "hash": "e406e069f13e3b6c53bc7a634b4f4ea8",
+            "n_bytes": 328268119,
+            "name": "ethereum_contracts__v1_0_0__05000000_to_05999999.parquet"
+        },
+        {
+            "hash": "9651c6d0f349ee589b20e8bea896fdc1",
+            "n_bytes": 403202482,
+            "name": "ethereum_contracts__v1_0_0__06000000_to_06999999.parquet"
+        },
+        {
+            "hash": "d2ae7c208b51a09537a1cf41d36dc4ed",
+            "n_bytes": 354711950,
+            "name": "ethereum_contracts__v1_0_0__07000000_to_07999999.parquet"
+        },
+        {
+            "hash": "45dfc78c8223c71ae530f8bea494d92b",
+            "n_bytes": 334208521,
+            "name": "ethereum_contracts__v1_0_0__08000000_to_08999999.parquet"
+        },
+        {
+            "hash": "c4a2509578d51135eec6cd0d604d7657",
+            "n_bytes": 420620123,
+            "name": "ethereum_contracts__v1_0_0__09000000_to_09999999.parquet"
+        },
+        {
+            "hash": "50da1c9a328f4152b768c9ac1e3b5c99",
+            "n_bytes": 508399240,
+            "name": "ethereum_contracts__v1_0_0__10000000_to_10999999.parquet"
+        },
+        {
+            "hash": "8013ba9f27c2844ba5341a44e70eee74",
+            "n_bytes": 555497504,
+            "name": "ethereum_contracts__v1_0_0__11000000_to_11999999.parquet"
+        },
+        {
+            "hash": "c9ad9a784ee11d3d1e44a63b3be7a25d",
+            "n_bytes": 648691436,
+            "name": "ethereum_contracts__v1_0_0__12000000_to_12999999.parquet"
+        },
+        {
+            "hash": "49aca9eb469fb435fc11c09037434ff8",
+            "n_bytes": 594615935,
+            "name": "ethereum_contracts__v1_0_0__13000000_to_13999999.parquet"
+        },
+        {
+            "hash": "4ce044cc6f6255d3b2fab72a333e5ed8",
+            "n_bytes": 798261906,
+            "name": "ethereum_contracts__v1_0_0__14000000_to_14999999.parquet"
+        },
+        {
+            "hash": "26f63f9ec8023dac8a716dcde6ab9078",
+            "n_bytes": 954142634,
+            "name": "ethereum_contracts__v1_0_0__15000000_to_15999999.parquet"
+        },
+        {
+            "hash": "b71b9887d256daf9c89a973cb10af6d7",
+            "n_bytes": 710840143,
+            "name": "ethereum_contracts__v1_0_0__16000000_to_16799999.parquet"
+        }
+    ],
+    "name": "ethereum_contracts",
+    "network": "ethereum",
+    "schema": {
+        "description": "all historical contract deployments",
+        "tables": {
+            "contracts": {
+                "columns": [
+                    {
+                        "description": "block number when contract was created",
+                        "name": "block_number",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "description": "increased by 1 for each contract created in block",
+                        "name": "create_index",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "description": "hash of transaction that created contract",
+                        "name": "transaction_hash",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "address of deployed contract",
+                        "name": "contract_address",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "EOA that deployed the contract",
+                        "name": "deployer",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "the `from` field in the creation trace",
+                        "name": "factory",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "initialization bytecode of contract",
+                        "name": "init_code",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "bytecode of contract",
+                        "name": "code",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "keccak hash of contract initialization code",
+                        "name": "init_code_hash",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "keccak hash of contract bytecode",
+                        "name": "code_hash",
+                        "type": "BINARY"
+                    }
+                ],
+                "description": "each row corresponds to a contract create trace"
+            }
+        }
+    },
+    "version": "1.0.0"
+}

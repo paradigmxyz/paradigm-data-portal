@@ -1,0 +1,469 @@
+{
+    "datatype": "native_transfers",
+    "description": "all native transfers in similar format to ERC20 Transfers (excluding tx fees)",
+    "files": [
+        {
+            "hash": "48cc4472dae3afe90f2a2cdffcfdae0a",
+            "n_bytes": 5690786,
+            "name": "ethereum_native_transfers__v1_0_0__00000000_to_00199999.parquet"
+        },
+        {
+            "hash": "de4c0e0aaad27071dd42ceb5d972dfbb",
+            "n_bytes": 11331350,
+            "name": "ethereum_native_transfers__v1_0_0__00200000_to_00399999.parquet"
+        },
+        {
+            "hash": "eac20eaec5cf632d171a00775529386d",
+            "n_bytes": 12736409,
+            "name": "ethereum_native_transfers__v1_0_0__00400000_to_00599999.parquet"
+        },
+        {
+            "hash": "07effd621987733a5ff51e247bb26dd3",
+            "n_bytes": 15982188,
+            "name": "ethereum_native_transfers__v1_0_0__00600000_to_00799999.parquet"
+        },
+        {
+            "hash": "b03398e16152ee692d4c1197cd2db915",
+            "n_bytes": 24712485,
+            "name": "ethereum_native_transfers__v1_0_0__00800000_to_00999999.parquet"
+        },
+        {
+            "hash": "8b571782b37a3f1478e3ceebf75895cb",
+            "n_bytes": 45226256,
+            "name": "ethereum_native_transfers__v1_0_0__01000000_to_01199999.parquet"
+        },
+        {
+            "hash": "9eac0d7cd3625b9c3718ec9241bc0ee1",
+            "n_bytes": 55216367,
+            "name": "ethereum_native_transfers__v1_0_0__01200000_to_01399999.parquet"
+        },
+        {
+            "hash": "3a55f7070511cfbc561832e21df7ac4b",
+            "n_bytes": 72211149,
+            "name": "ethereum_native_transfers__v1_0_0__01400000_to_01599999.parquet"
+        },
+        {
+            "hash": "4195473710d5a27a24cbce960a6f353d",
+            "n_bytes": 75430132,
+            "name": "ethereum_native_transfers__v1_0_0__01600000_to_01799999.parquet"
+        },
+        {
+            "hash": "e99b0c8dbd2110566f3759b593c559b9",
+            "n_bytes": 79432031,
+            "name": "ethereum_native_transfers__v1_0_0__01800000_to_01999999.parquet"
+        },
+        {
+            "hash": "1878bc4b8c6b750d3c3102064ff31980",
+            "n_bytes": 82707629,
+            "name": "ethereum_native_transfers__v1_0_0__02000000_to_02199999.parquet"
+        },
+        {
+            "hash": "c707da6438970db942fc984d9ee3e577",
+            "n_bytes": 124886832,
+            "name": "ethereum_native_transfers__v1_0_0__02200000_to_02399999.parquet"
+        },
+        {
+            "hash": "c183e61f0704585d37454ca16ec5a15d",
+            "n_bytes": 69677040,
+            "name": "ethereum_native_transfers__v1_0_0__02400000_to_02599999.parquet"
+        },
+        {
+            "hash": "f4b9c196453e68490c44f555399c0847",
+            "n_bytes": 69608858,
+            "name": "ethereum_native_transfers__v1_0_0__02600000_to_02799999.parquet"
+        },
+        {
+            "hash": "6c91ee04199ce9bc8415adbb972fcadc",
+            "n_bytes": 68858529,
+            "name": "ethereum_native_transfers__v1_0_0__02800000_to_02999999.parquet"
+        },
+        {
+            "hash": "f653d38c01959e5a6ebd92790c728226",
+            "n_bytes": 73834555,
+            "name": "ethereum_native_transfers__v1_0_0__03000000_to_03199999.parquet"
+        },
+        {
+            "hash": "bdba4b5171bbfc480003425e5e6f1fa3",
+            "n_bytes": 111175493,
+            "name": "ethereum_native_transfers__v1_0_0__03200000_to_03399999.parquet"
+        },
+        {
+            "hash": "b3a189d018880ad8be30a8f3b29b0fd3",
+            "n_bytes": 143441746,
+            "name": "ethereum_native_transfers__v1_0_0__03400000_to_03599999.parquet"
+        },
+        {
+            "hash": "1fba8d7018a320a5fa0dda2dd99d47b1",
+            "n_bytes": 244566467,
+            "name": "ethereum_native_transfers__v1_0_0__03600000_to_03799999.parquet"
+        },
+        {
+            "hash": "644c4fecfdb7e240abed67c8dd299e09",
+            "n_bytes": 491904504,
+            "name": "ethereum_native_transfers__v1_0_0__03800000_to_03999999.parquet"
+        },
+        {
+            "hash": "747797caf009a871a39d1e8488ef1bba",
+            "n_bytes": 621409562,
+            "name": "ethereum_native_transfers__v1_0_0__04000000_to_04199999.parquet"
+        },
+        {
+            "hash": "90538dc4957d907e97b8736d15a5e98a",
+            "n_bytes": 843481817,
+            "name": "ethereum_native_transfers__v1_0_0__04200000_to_04399999.parquet"
+        },
+        {
+            "hash": "c4afb09f7500af27f75d25f215ed7d6d",
+            "n_bytes": 541175455,
+            "name": "ethereum_native_transfers__v1_0_0__04400000_to_04599999.parquet"
+        },
+        {
+            "hash": "d57db6ec0071750304112c534687306c",
+            "n_bytes": 1172756317,
+            "name": "ethereum_native_transfers__v1_0_0__04600000_to_04799999.parquet"
+        },
+        {
+            "hash": "56c9f2fdbd9111b591e338c46117d6e7",
+            "n_bytes": 1834495623,
+            "name": "ethereum_native_transfers__v1_0_0__04800000_to_04999999.parquet"
+        },
+        {
+            "hash": "dd7578adca464d60d6017b6aa5533149",
+            "n_bytes": 1069985060,
+            "name": "ethereum_native_transfers__v1_0_0__05000000_to_05199999.parquet"
+        },
+        {
+            "hash": "f0b4975e9167f6be5c5f8a3a44c38daa",
+            "n_bytes": 807066352,
+            "name": "ethereum_native_transfers__v1_0_0__05200000_to_05399999.parquet"
+        },
+        {
+            "hash": "01fa37f1e9f4889583af7dd48c6af413",
+            "n_bytes": 920702621,
+            "name": "ethereum_native_transfers__v1_0_0__05400000_to_05599999.parquet"
+        },
+        {
+            "hash": "7df8235ac272f0061679aaea9d956aba",
+            "n_bytes": 937126477,
+            "name": "ethereum_native_transfers__v1_0_0__05600000_to_05799999.parquet"
+        },
+        {
+            "hash": "49f3491190048339aa2e5d56f82f1582",
+            "n_bytes": 739518170,
+            "name": "ethereum_native_transfers__v1_0_0__05800000_to_05999999.parquet"
+        },
+        {
+            "hash": "879cecaae2077ae3f047e416f4218556",
+            "n_bytes": 781918979,
+            "name": "ethereum_native_transfers__v1_0_0__06000000_to_06199999.parquet"
+        },
+        {
+            "hash": "daa82a38b90b633c330ced9463e4ba3e",
+            "n_bytes": 674568646,
+            "name": "ethereum_native_transfers__v1_0_0__06200000_to_06399999.parquet"
+        },
+        {
+            "hash": "716a3c88a5a948a44d4d8d8a8f94084e",
+            "n_bytes": 617115529,
+            "name": "ethereum_native_transfers__v1_0_0__06400000_to_06599999.parquet"
+        },
+        {
+            "hash": "7263265adf1c75686655dd8bf22b54f3",
+            "n_bytes": 637247843,
+            "name": "ethereum_native_transfers__v1_0_0__06600000_to_06799999.parquet"
+        },
+        {
+            "hash": "f28a4ea84fdd1b2a76155f80bd3a20c4",
+            "n_bytes": 615714596,
+            "name": "ethereum_native_transfers__v1_0_0__06800000_to_06999999.parquet"
+        },
+        {
+            "hash": "5d4d19ec322b8058ebee1e56e48c9efc",
+            "n_bytes": 627526606,
+            "name": "ethereum_native_transfers__v1_0_0__07000000_to_07199999.parquet"
+        },
+        {
+            "hash": "e65df6724a58a57b4b2dfb360eb9b4c2",
+            "n_bytes": 617488778,
+            "name": "ethereum_native_transfers__v1_0_0__07200000_to_07399999.parquet"
+        },
+        {
+            "hash": "95b6fe1605afa22e70bf15dd791bb598",
+            "n_bytes": 659556612,
+            "name": "ethereum_native_transfers__v1_0_0__07400000_to_07599999.parquet"
+        },
+        {
+            "hash": "f8a731183326f6ae7d0269cb38e8d354",
+            "n_bytes": 695213366,
+            "name": "ethereum_native_transfers__v1_0_0__07600000_to_07799999.parquet"
+        },
+        {
+            "hash": "ff0377618f7343bc6ccf634d63e85f74",
+            "n_bytes": 764704854,
+            "name": "ethereum_native_transfers__v1_0_0__07800000_to_07999999.parquet"
+        },
+        {
+            "hash": "5528152d4d71d2a80b29a99600f6a2b6",
+            "n_bytes": 658004756,
+            "name": "ethereum_native_transfers__v1_0_0__08000000_to_08199999.parquet"
+        },
+        {
+            "hash": "fb1260145d0729301dbe3fcf98b0f926",
+            "n_bytes": 588192142,
+            "name": "ethereum_native_transfers__v1_0_0__08200000_to_08399999.parquet"
+        },
+        {
+            "hash": "edcacec2a0b0931eb22b341eca353bdf",
+            "n_bytes": 548307705,
+            "name": "ethereum_native_transfers__v1_0_0__08400000_to_08599999.parquet"
+        },
+        {
+            "hash": "b1c360c12ba515b8d24abb7ead463b67",
+            "n_bytes": 498643017,
+            "name": "ethereum_native_transfers__v1_0_0__08600000_to_08799999.parquet"
+        },
+        {
+            "hash": "c8045e5a30a070fd89b0d6fb53f7d62f",
+            "n_bytes": 520471903,
+            "name": "ethereum_native_transfers__v1_0_0__08800000_to_08999999.parquet"
+        },
+        {
+            "hash": "3eab3ac719978e273da51b6f62fca8a3",
+            "n_bytes": 534387942,
+            "name": "ethereum_native_transfers__v1_0_0__09000000_to_09199999.parquet"
+        },
+        {
+            "hash": "afd242d4cc1ab2731e8bdb9faf362903",
+            "n_bytes": 458727305,
+            "name": "ethereum_native_transfers__v1_0_0__09200000_to_09399999.parquet"
+        },
+        {
+            "hash": "9fd3aeb9cd4256dff43c24a9dc2109ec",
+            "n_bytes": 557555799,
+            "name": "ethereum_native_transfers__v1_0_0__09400000_to_09599999.parquet"
+        },
+        {
+            "hash": "0a8b0784fc6caf485d817f67afdfdac8",
+            "n_bytes": 586230193,
+            "name": "ethereum_native_transfers__v1_0_0__09600000_to_09799999.parquet"
+        },
+        {
+            "hash": "994df72a68a3b1e346a8d9683ad50f08",
+            "n_bytes": 702357167,
+            "name": "ethereum_native_transfers__v1_0_0__09800000_to_09999999.parquet"
+        },
+        {
+            "hash": "130e0deb357f3b831076625213847120",
+            "n_bytes": 832679303,
+            "name": "ethereum_native_transfers__v1_0_0__10000000_to_10199999.parquet"
+        },
+        {
+            "hash": "ef7bc9bf89360105c5c2ea49283d0d69",
+            "n_bytes": 898361669,
+            "name": "ethereum_native_transfers__v1_0_0__10200000_to_10399999.parquet"
+        },
+        {
+            "hash": "e00932ab8b79f669acab9a84a88db9dc",
+            "n_bytes": 1098405632,
+            "name": "ethereum_native_transfers__v1_0_0__10400000_to_10599999.parquet"
+        },
+        {
+            "hash": "2a116bbaecaeb4b8074048cf8f09b42a",
+            "n_bytes": 1066257859,
+            "name": "ethereum_native_transfers__v1_0_0__10600000_to_10799999.parquet"
+        },
+        {
+            "hash": "ae25ed040f74e86be557f1649b9e7868",
+            "n_bytes": 945348380,
+            "name": "ethereum_native_transfers__v1_0_0__10800000_to_10999999.parquet"
+        },
+        {
+            "hash": "8214c1b997afeafe151e51af79f58042",
+            "n_bytes": 955687252,
+            "name": "ethereum_native_transfers__v1_0_0__11000000_to_11199999.parquet"
+        },
+        {
+            "hash": "8ad8a297a2ff8af9a251ae9de2468e15",
+            "n_bytes": 996245659,
+            "name": "ethereum_native_transfers__v1_0_0__11200000_to_11399999.parquet"
+        },
+        {
+            "hash": "8781baab23d4371b8b167abbfc72e3cd",
+            "n_bytes": 1069832245,
+            "name": "ethereum_native_transfers__v1_0_0__11400000_to_11599999.parquet"
+        },
+        {
+            "hash": "f3bb049fdb1e7ac901bd87eacb7fc0be",
+            "n_bytes": 1205906693,
+            "name": "ethereum_native_transfers__v1_0_0__11600000_to_11799999.parquet"
+        },
+        {
+            "hash": "f6b91916959cc1c22784871e2861b673",
+            "n_bytes": 1289157248,
+            "name": "ethereum_native_transfers__v1_0_0__11800000_to_11999999.parquet"
+        },
+        {
+            "hash": "1d256b55145d1d3aa7827d6138c71c41",
+            "n_bytes": 1371643335,
+            "name": "ethereum_native_transfers__v1_0_0__12000000_to_12199999.parquet"
+        },
+        {
+            "hash": "41b9d5eea89cf9690e1693bc7072d9a7",
+            "n_bytes": 1608330834,
+            "name": "ethereum_native_transfers__v1_0_0__12200000_to_12399999.parquet"
+        },
+        {
+            "hash": "545735c48a6b3ffe2a4c37577e3cadee",
+            "n_bytes": 1524857332,
+            "name": "ethereum_native_transfers__v1_0_0__12400000_to_12599999.parquet"
+        },
+        {
+            "hash": "1b247ca25341ccd7a3c156ae50f34c7a",
+            "n_bytes": 1266490013,
+            "name": "ethereum_native_transfers__v1_0_0__12600000_to_12799999.parquet"
+        },
+        {
+            "hash": "b61ee91e56277855a79f02f59372e5c5",
+            "n_bytes": 1319524141,
+            "name": "ethereum_native_transfers__v1_0_0__12800000_to_12999999.parquet"
+        },
+        {
+            "hash": "29b03078218311bb9b991760a866eb64",
+            "n_bytes": 1333697482,
+            "name": "ethereum_native_transfers__v1_0_0__13000000_to_13199999.parquet"
+        },
+        {
+            "hash": "93d5aaa4484f4133e87d67f57bbcead0",
+            "n_bytes": 1373377723,
+            "name": "ethereum_native_transfers__v1_0_0__13200000_to_13399999.parquet"
+        },
+        {
+            "hash": "300021d0fe02e888a204a92de2f35d36",
+            "n_bytes": 1536096326,
+            "name": "ethereum_native_transfers__v1_0_0__13400000_to_13599999.parquet"
+        },
+        {
+            "hash": "d402839ed968a45b6e0113f44f433bff",
+            "n_bytes": 1491833900,
+            "name": "ethereum_native_transfers__v1_0_0__13600000_to_13799999.parquet"
+        },
+        {
+            "hash": "e0e72aa8516aa88139e7d61907544c1d",
+            "n_bytes": 1427555638,
+            "name": "ethereum_native_transfers__v1_0_0__13800000_to_13999999.parquet"
+        },
+        {
+            "hash": "9c969d5798f70fd632371116c885f44d",
+            "n_bytes": 1433320799,
+            "name": "ethereum_native_transfers__v1_0_0__14000000_to_14199999.parquet"
+        },
+        {
+            "hash": "004bca3751e8a1e280bf478087ab0759",
+            "n_bytes": 1385189844,
+            "name": "ethereum_native_transfers__v1_0_0__14200000_to_14399999.parquet"
+        },
+        {
+            "hash": "6d48c40d2f8a9798b1cd19a960cc9bf1",
+            "n_bytes": 1385243142,
+            "name": "ethereum_native_transfers__v1_0_0__14400000_to_14599999.parquet"
+        },
+        {
+            "hash": "4ebe41010502841324893c461cde65bf",
+            "n_bytes": 1397068928,
+            "name": "ethereum_native_transfers__v1_0_0__14600000_to_14799999.parquet"
+        },
+        {
+            "hash": "a4c5e82f9fecf54d273a6fd8777f9217",
+            "n_bytes": 1292891099,
+            "name": "ethereum_native_transfers__v1_0_0__14800000_to_14999999.parquet"
+        },
+        {
+            "hash": "ef2f477dfba75fca6ee49f8cf979dbcb",
+            "n_bytes": 1319237305,
+            "name": "ethereum_native_transfers__v1_0_0__15000000_to_15199999.parquet"
+        },
+        {
+            "hash": "4cf025c9923535c2975f6e5eaa39662f",
+            "n_bytes": 1398570730,
+            "name": "ethereum_native_transfers__v1_0_0__15200000_to_15399999.parquet"
+        },
+        {
+            "hash": "82bf15b457879cb12b6f96d6ab969aa0",
+            "n_bytes": 1285511893,
+            "name": "ethereum_native_transfers__v1_0_0__15400000_to_15599999.parquet"
+        },
+        {
+            "hash": "3405eff80cdbd50f6fae9f12c3c1651c",
+            "n_bytes": 1102072040,
+            "name": "ethereum_native_transfers__v1_0_0__15600000_to_15799999.parquet"
+        },
+        {
+            "hash": "308f47604aae7728fc6d8419c42967de",
+            "n_bytes": 1023139324,
+            "name": "ethereum_native_transfers__v1_0_0__15800000_to_15999999.parquet"
+        },
+        {
+            "hash": "847821dbbc7d6a4c71cf980f87b16029",
+            "n_bytes": 1059039821,
+            "name": "ethereum_native_transfers__v1_0_0__16000000_to_16199999.parquet"
+        },
+        {
+            "hash": "f8cbbbbaaf51a94f816c43880236984c",
+            "n_bytes": 1004807721,
+            "name": "ethereum_native_transfers__v1_0_0__16200000_to_16399999.parquet"
+        },
+        {
+            "hash": "3c81ab319fdebd8da11e92d995d9e37d",
+            "n_bytes": 1020162220,
+            "name": "ethereum_native_transfers__v1_0_0__16400000_to_16599999.parquet"
+        },
+        {
+            "hash": "54fbd2256b2fb5ce89b8dc9021b80c47",
+            "n_bytes": 1073940594,
+            "name": "ethereum_native_transfers__v1_0_0__16600000_to_16799999.parquet"
+        }
+    ],
+    "name": "ethereum_native_transfers",
+    "network": "ethereum",
+    "schema": {
+        "description": "all native transfers in similar format to ERC20 Transfers (excluding tx fees)",
+        "tables": {
+            "native_transfers": {
+                "columns": [
+                    {
+                        "description": "block number where native token was transfered",
+                        "name": "block_number",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "description": "increased by 1 for each native transfer in block",
+                        "name": "transfer_index",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "description": "hash of transaction that contains transfer",
+                        "name": "transaction_hash",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "address that native token is transferred to",
+                        "name": "to_address",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "address that native token is transferred from",
+                        "name": "from_address",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "amount of native token transferred",
+                        "name": "value",
+                        "type": "BINARY"
+                    }
+                ],
+                "description": "each row corresponds to a trace that transfers native token"
+            }
+        }
+    },
+    "version": "1.0.0"
+}

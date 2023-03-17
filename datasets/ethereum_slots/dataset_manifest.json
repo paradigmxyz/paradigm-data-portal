@@ -1,0 +1,129 @@
+{
+    "datatype": "slots",
+    "description": "all slots of each contract, including historical usage metadata",
+    "files": [
+        {
+            "hash": "0fe90a691805d4e6ecadef3326701ead",
+            "n_bytes": 4082875020,
+            "name": "ethereum_slots__v1.0.0__0x00_to_0x0f.parquet"
+        },
+        {
+            "hash": "ee5bbec43eb1c31f5217237211dc725f",
+            "n_bytes": 2058888792,
+            "name": "ethereum_slots__v1.0.0__0x10_to_0x1f.parquet"
+        },
+        {
+            "hash": "d6002aadaf62df7806c502e8ee5cb21d",
+            "n_bytes": 2394828784,
+            "name": "ethereum_slots__v1.0.0__0x20_to_0x2f.parquet"
+        },
+        {
+            "hash": "9acff8c6635d857a43b1cdc2ddf59574",
+            "n_bytes": 2147275687,
+            "name": "ethereum_slots__v1.0.0__0x30_to_0x3f.parquet"
+        },
+        {
+            "hash": "15d7ab03c7efad6988f9a4340bd6b65e",
+            "n_bytes": 2310360858,
+            "name": "ethereum_slots__v1.0.0__0x40_to_0x4f.parquet"
+        },
+        {
+            "hash": "4fb3e9b0a420e93a338988752f69d407",
+            "n_bytes": 3315134125,
+            "name": "ethereum_slots__v1.0.0__0x50_to_0x5f.parquet"
+        },
+        {
+            "hash": "690aa995ef17c326f1a1e7fcdd12de02",
+            "n_bytes": 1999353262,
+            "name": "ethereum_slots__v1.0.0__0x60_to_0x6f.parquet"
+        },
+        {
+            "hash": "0d72d635f47828739f6c9abc1e7146b3",
+            "n_bytes": 3451637035,
+            "name": "ethereum_slots__v1.0.0__0x70_to_0x7f.parquet"
+        },
+        {
+            "hash": "a2d663f62f9aba90607de8538f46b141",
+            "n_bytes": 2692255804,
+            "name": "ethereum_slots__v1.0.0__0x80_to_0x8f.parquet"
+        },
+        {
+            "hash": "ea374784b0f541e5744990e6a5663dee",
+            "n_bytes": 2126238030,
+            "name": "ethereum_slots__v1.0.0__0x90_to_0x9f.parquet"
+        },
+        {
+            "hash": "ebba9199de2373fd2875852f86f8f1b8",
+            "n_bytes": 2920825856,
+            "name": "ethereum_slots__v1.0.0__0xa0_to_0xaf.parquet"
+        },
+        {
+            "hash": "effc1b8a42cd412d0d6976924261a15e",
+            "n_bytes": 2153804795,
+            "name": "ethereum_slots__v1.0.0__0xb0_to_0xbf.parquet"
+        },
+        {
+            "hash": "988cf08e232daf2ddfa2a28316fee31e",
+            "n_bytes": 2271461320,
+            "name": "ethereum_slots__v1.0.0__0xc0_to_0xcf.parquet"
+        },
+        {
+            "hash": "13509d1fe410d3d0877f03f395fbff6d",
+            "n_bytes": 3562804550,
+            "name": "ethereum_slots__v1.0.0__0xd0_to_0xdf.parquet"
+        },
+        {
+            "hash": "26fa7fcaf6cd0d7781cc9fb21143e936",
+            "n_bytes": 1610498317,
+            "name": "ethereum_slots__v1.0.0__0xe0_to_0xef.parquet"
+        },
+        {
+            "hash": "94344f169fd8fb9f1d7fa8c35e9cc427",
+            "n_bytes": 2114482565,
+            "name": "ethereum_slots__v1.0.0__0xf0_to_0xff.parquet"
+        }
+    ],
+    "name": "ethereum_slots",
+    "network": "ethereum",
+    "schema": {
+        "description": "all slots of each contract, including historical usage metadata",
+        "tables": {
+            "slots": {
+                "columns": [
+                    {
+                        "description": "contract of slot",
+                        "name": "contract_address",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "address of slot",
+                        "name": "slot",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "last data stored in slot",
+                        "name": "value",
+                        "type": "BINARY"
+                    },
+                    {
+                        "description": "first block where slot was used",
+                        "name": "first_updated_block",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "description": "last block where slot was updated",
+                        "name": "last_updated_block",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "description": "number of transactions that updated slot",
+                        "name": "n_tx_updates",
+                        "type": "INTEGER"
+                    }
+                ],
+                "description": "each row corresponds to a slot of a contract"
+            }
+        }
+    },
+    "version": "1.0.0"
+}
