@@ -31,6 +31,7 @@ dependencies = [
     'typing-extensions >=4.2.0, <5',
     'toolcli >=0.6.8, <0.7',
     'toolstr >=0.9.1, <0.10',
+    'requests >=2.20.0, <3',
 ]
 
 [project.scripts]
