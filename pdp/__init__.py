@@ -8,5 +8,5 @@ from .readme_utils import *
 from .spec import *
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
