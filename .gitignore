@@ -4,6 +4,7 @@ ROADMAP.md
 TODO.md
 pytestdebug.log
 tuna.log
+.DS_STORE
 
 # filetypes
 *.egg-info
@@ -22,3 +23,5 @@ dist/*
 roadmap/*
 data/*
 extras_ignore/*
+*.ipynb
+*.ipynb_checkpoints
