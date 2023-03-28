@@ -1,8 +1,11 @@
+"""functions for creating dataset README's"""
+
 from __future__ import annotations
 
 import os
 
-from . import dataset_utils
+from . import download_utils
+from . import schema_utils
 from . import spec
 
 
@@ -84,10 +87,8 @@ def _generate_readme_str(dataset_manifest: spec.DatasetManifest) -> str:
     import toolsql
     import toolstr
 
-    example_usage_pieces = [
-        '- ' + example
-        for example in spec.datatype_example_usage[dataset_manifest['datatype']]
-    ]
+    module = schema_utils._get_datatype_module(dataset_manifest['datatype'])
+    example_usage_pieces = ['- ' + example for example in module.example_usage]
     example_usage_str = '\n'.join(example_usage_pieces)
 
     schema_pieces = []
@@ -118,7 +119,7 @@ def _generate_readme_str(dataset_manifest: spec.DatasetManifest) -> str:
     for file in dataset_manifest['files']:
         if file['name'] == spec.dataset_readme_filename:
             continue
-        file_url = dataset_utils.get_dataset_file_url(
+        file_url = download_utils.get_dataset_file_url(
             datatype=dataset_manifest['datatype'],
             network=dataset_manifest['network'],
             filename=file['name'],

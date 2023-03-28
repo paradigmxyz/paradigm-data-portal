@@ -50,12 +50,13 @@ def generate_command(
     # get generator module
     parsed = pdp.parse_dataset_name(dataset)
     datatype = parsed['datatype']
-    generator_module = pdp.get_generator_module(datatype)
+    raise NotImplementedError()
+    # generator_module = pdp.get_generator_module(datatype)
 
-    # generate dataset
-    generator_module.generate(
-        output_dir=output_dir,
-        start_block=start_block_int,
-        end_block=end_block_int,
-    )
+    # # generate dataset
+    # generator_module.generate(
+    #     output_dir=output_dir,
+    #     start_block=start_block_int,
+    #     end_block=end_block_int,
+    # )
 

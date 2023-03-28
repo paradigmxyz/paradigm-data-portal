@@ -1,59 +1,14 @@
+"""functions for downloading datasets"""
+
 from __future__ import annotations
 
 import os
 import typing
 
-
-from . import io_utils
+from . import file_utils
+from . import manifest_utils
+from . import schema_utils
 from . import spec
-
-
-def get_global_manifest(
-    *, portal_root: str | None = None
-) -> spec.GlobalManifest:
-    """get global manifest of all datasets"""
-
-    import requests  # type: ignore
-
-    # build url
-    if portal_root is None:
-        portal_root = spec.portal_root
-    url = spec.urls['global_manifest'].format(portal_root=portal_root)
-
-    # get manifest
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception('could not obtain global manifest at url: ' + str(url))
-    manifest: spec.GlobalManifest = response.json()
-
-    return manifest
-
-
-def get_dataset_manifest(
-    dataset: str, *, portal_root: str | None = None
-) -> spec.DatasetManifest:
-    """get manifest of a particular dataset"""
-
-    import requests
-
-    parsed = parse_dataset_name(dataset)
-
-    # build url
-    if portal_root is None:
-        portal_root = spec.portal_root
-    url = spec.urls['dataset_manifest'].format(
-        portal_root=portal_root,
-        datatype=parsed['datatype'],
-        network=parsed['network'],
-    )
-
-    # get manifest
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception('could not obtain dataset manifest at url: ' + str(url))
-    manifest: spec.DatasetManifest = response.json()
-
-    return manifest
 
 
 def download_dataset(
@@ -72,14 +27,14 @@ def download_dataset(
     base_url = os.path.dirname(urls[0])
     readme_url = os.path.join(base_url, 'README.md')
     manifest_url = os.path.join(base_url, 'dataset_manifest.json')
-    io_utils.download_files(
+    file_utils.download_files(
         urls=[readme_url, manifest_url],
         output_dir=output_dir,
         skip_existing=skip_existing,
     )
 
     # download files
-    io_utils.download_files(
+    file_utils.download_files(
         urls=urls,
         output_dir=output_dir,
         skip_existing=skip_existing,
@@ -94,12 +49,12 @@ def get_dataset_file_urls(
 ) -> typing.Sequence[str]:
     """get file urls of a dataset"""
 
-    parsed = parse_dataset_name(dataset)
+    parsed = schema_utils.parse_dataset_name(dataset)
 
     if portal_root is None:
         portal_root = spec.portal_root
     if manifest is None:
-        manifest = get_dataset_manifest(
+        manifest = manifest_utils.get_dataset_manifest(
             dataset=dataset, portal_root=portal_root
         )
     urls = []
@@ -128,20 +83,6 @@ def get_dataset_file_url(
         network=network,
         filename=filename,
     )
-
-
-def get_dataset_name(*, datatype: str, network: str) -> str:
-    """create dataset name based on metadata"""
-    return network + '_' + datatype
-
-
-def parse_dataset_name(dataset: str) -> typing.Mapping[str, str]:
-    """parse metadata from a dataset name"""
-    network, datatype = dataset.split('_', maxsplit=1)
-    return {
-        'network': network,
-        'datatype': datatype,
-    }
 
 
 def validate_dataset_directory(path: str, *, no_hashes: bool = False) -> bool:
@@ -179,7 +120,9 @@ def validate_dataset_directory(path: str, *, no_hashes: bool = False) -> bool:
         bad_hashes = []
         for file in manifest['files']:
             if file['name'] in present_files:
-                hash = io_utils.get_file_hash(os.path.join(path, file['name']))
+                hash = file_utils.get_file_hash(
+                    os.path.join(path, file['name'])
+                )
                 target_hash = file['hash']
                 if hash != target_hash:
                     bad_hashes.append(file['name'])

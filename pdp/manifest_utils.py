@@ -4,12 +4,60 @@ import os
 import shutil
 import typing
 
-from . import dataset_utils
-from . import io_utils
+from . import file_utils
+from . import schema_utils
 from . import spec
 
 if typing.TYPE_CHECKING:
     import toolsql
+
+
+def get_global_manifest(
+    *, portal_root: str | None = None
+) -> spec.GlobalManifest:
+    """get global manifest of all datasets"""
+
+    import requests  # type: ignore
+
+    # build url
+    if portal_root is None:
+        portal_root = spec.portal_root
+    url = spec.urls['global_manifest'].format(portal_root=portal_root)
+
+    # get manifest
+    response = requests.get(url)
+    if response.status_code != 200:
+        raise Exception('could not obtain global manifest at url: ' + str(url))
+    manifest: spec.GlobalManifest = response.json()
+
+    return manifest
+
+
+def get_dataset_manifest(
+    dataset: str, *, portal_root: str | None = None
+) -> spec.DatasetManifest:
+    """get manifest of a particular dataset"""
+
+    import requests
+
+    parsed = schema_utils.parse_dataset_name(dataset)
+
+    # build url
+    if portal_root is None:
+        portal_root = spec.portal_root
+    url = spec.urls['dataset_manifest'].format(
+        portal_root=portal_root,
+        datatype=parsed['datatype'],
+        network=parsed['network'],
+    )
+
+    # get manifest
+    response = requests.get(url)
+    if response.status_code != 200:
+        raise Exception('could not obtain dataset manifest at url: ' + str(url))
+    manifest: spec.DatasetManifest = response.json()
+
+    return manifest
 
 
 def create_global_manifest(
@@ -148,7 +196,7 @@ def create_dataset_manifest(
             raise Exception('must specify dataset_dir or name')
         name = os.path.basename(dataset_dir)
     if network is None or datatype is None:
-        parsed = dataset_utils.parse_dataset_name(name)
+        parsed = schema_utils.parse_dataset_name(name)
         parsed_network = parsed['network']
         parsed_datatype = parsed['datatype']
         if network is None:
@@ -159,19 +207,23 @@ def create_dataset_manifest(
             datatype = parsed_datatype
         elif datatype != parsed_datatype:
             raise Exception('parsed datatype does not equal input datatype')
+    try:
+        module = schema_utils._get_datatype_module(datatype)
+    except Exception:
+        module = None
     if version is None:
-        if name in spec.dataset_versions:
-            version = spec.dataset_versions[name]
+        if module is not None:
+            version = module.version
         else:
             raise Exception('unknown version for dataset')
     if description is None:
-        if datatype in spec.datatype_schemas:
-            description = spec.datatype_schemas[datatype]['description']
+        if module is not None:
+            description = module.schema['description']
         else:
             raise Exception('could not find description for dataset')
     if schema is None:
-        if datatype in spec.datatype_schemas:
-            schema = spec.datatype_schemas[datatype]
+        if module is not None:
+            schema = module.schema
         else:
             raise Exception('could not find schema for dataset')
     print('creating manifest for', name, version)
@@ -203,7 +255,7 @@ def create_dataset_manifest(
         if reuse_hashes and os.path.basename(path) in old_hashes:
             file_hashes.append(old_hashes[os.path.basename(path)])
         else:
-            file_hashes.append(io_utils.get_file_hash(path))
+            file_hashes.append(file_utils.get_file_hash(path))
 
     # assemble files
     files = []

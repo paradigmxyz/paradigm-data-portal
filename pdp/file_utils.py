@@ -1,3 +1,5 @@
+"""functions for generic file operations"""
+
 from __future__ import annotations
 
 import os
