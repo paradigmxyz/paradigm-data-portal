@@ -22,9 +22,9 @@ def query(
     columns: spec.PolarsExpression | None = None,
     output_binary: bool = True,
     # inputs
-    path: str | None = None,
+    source_path: str | None = None,
     dataset: str | None = None,
-    network: str | None = None,
+    network: str | int | None = None,
     datatype: str | None = None,
     table: str | None = None,
     scan_kwargs: typing.Any = None,
@@ -36,20 +36,20 @@ def query(
 ) -> pl.DataFrame:
 
     # determine data source
-    if path is None:
-        path = config_utils.get_dataset_path_template(
+    if source_path is None:
+        source_path = config_utils.get_dataset_path_template(
             network=network,
             datatype=datatype,
             dataset=dataset,
             table=table,
         )
-    if os.path.isdir(path):
-        path = os.path.join(path, '*.parquet')
+    if os.path.isdir(source_path):
+        source_path = os.path.join(source_path, '*.parquet')
 
     # initiate scan
     if scan_kwargs is None:
         scan_kwargs = {}
-    lf = pl.scan_parquet(path, **scan_kwargs)
+    lf = pl.scan_parquet(source_path, **scan_kwargs)
 
     # add filters
     if filters is not None:

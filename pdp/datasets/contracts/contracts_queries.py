@@ -47,12 +47,13 @@ def get_contracts(
     init_code_hash: str | bytes | None = None,
     # outputs
     sort: bool | spec.PolarsExpression = True,
+    descending: bool = False,
     unique_keep: typing.Literal['last', 'first', 'all'] = 'last',
     columns: spec.PolarsExpression | None = None,
     output_binary: bool = True,
     # inputs
-    path: str | None = None,
-    network: str | None = None,
+    source_path: str | None = None,
+    network: str | int | None = None,
     scan_kwargs: typing.Any = None,
     collect: bool = True,
     streaming: bool = True,
@@ -90,9 +91,10 @@ def get_contracts(
     return query_utils.query(
         filters=filters,
         sort=sort,
+        descending=descending,
         columns=columns,
         output_binary=output_binary,
-        path=path,
+        source_path=source_path,
         network=network,
         unique_columns=['contract_address'],
         unique_keep=unique_keep,

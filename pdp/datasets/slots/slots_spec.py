@@ -5,6 +5,14 @@ import typing
 if typing.TYPE_CHECKING:
     import toolsql
 
+    class Slot(typing.TypedDict):
+        contract_address: str
+        slot: str
+        value: bytes
+        first_updated_block: int
+        last_updated_block: int
+        n_tx_updates: int
+
 
 version = '1.1.0'
 
