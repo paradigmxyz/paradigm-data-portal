@@ -59,14 +59,14 @@ def get_dataset_schema(
                 other_column.get('primary')
                 for other_column in table_schema['columns']
             )
-            raw_column = {
+            raw_column: toolsql.ColumnSchemaShorthand = {
                 'name': 'chain_id',
                 'type': 'INTEGER',
                 'index': True,
                 'primary': is_primary,
             }
             column = toolsql.normalize_shorthand_column_schema(raw_column)
-            table_schema['columns'].append(column)
+            table_schema['columns'].append(column)  # type: ignore
 
     else:
         # if a single chain table, add network to table names
