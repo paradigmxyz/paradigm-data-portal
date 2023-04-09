@@ -5,6 +5,30 @@ import typing
 if typing.TYPE_CHECKING:
     import toolsql
 
+    class Contract(typing.TypedDict, total=False):
+        block_number: int
+        create_index: int
+        transaction_hash: str
+        contract_address: str
+        deployer: str
+        factory: str
+        init_code: str
+        code: str
+        init_code_hash: str
+        code_hash: str
+
+    class ContractBinary(typing.TypedDict, total=False):
+        block_number: int
+        create_index: int
+        transaction_hash: bytes
+        contract_address: bytes
+        deployer: bytes
+        factory: bytes
+        init_code: bytes
+        code: bytes
+        init_code_hash: bytes
+        code_hash: bytes
+
 
 version = '1.1.0'
 
