@@ -146,3 +146,11 @@ def to_hex(
     else:
         raise Exception('invalid value format')
 
+
+def _polars_exprs_equal(expr1: PolarsExpression, expr2: PolarsExpression) -> bool:
+    if isinstance(expr1, str):
+        expr1 = pl.col(expr1)
+    if isinstance(expr2, str):
+        expr1 = pl.col(expr2)
+    return str(expr1) == str(expr2)
+

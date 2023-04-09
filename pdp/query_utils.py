@@ -13,14 +13,14 @@ if typing.TYPE_CHECKING:
 def query(
     filters: spec.PolarsExpression,
     # outputs
-    pre_filter_sort: spec.PolarsExpression | None = None,
-    pre_filter_descending: bool = False,
-    sort: spec.PolarsExpression | None = None,
-    descending: bool = False,
-    unique_columns: typing.Sequence[str] | None = None,
-    unique_keep: typing.Literal['last', 'first', 'all'] = 'last',
     columns: spec.PolarsExpression | None = None,
     output_binary: bool = True,
+    sort: spec.PolarsExpression | None = None,
+    descending: bool = False,
+    unique_sort: spec.PolarsExpression | None = None,
+    unique_descending: bool = False,
+    unique_columns: typing.Sequence[str] | None = None,
+    unique_keep: typing.Literal['last', 'first', 'any'] | None = None,
     # inputs
     source_path: str | None = None,
     dataset: str | None = None,
@@ -35,15 +35,19 @@ def query(
     output_kwargs: typing.Any = None,
 ) -> pl.DataFrame:
 
+    import polars as pl
+
     # determine data source
     if source_path is None:
+        if network is None:
+            raise Exception('must specify network (e.g. network=\'ethereum\')')
         source_path = config_utils.get_dataset_path_template(
             network=network,
             datatype=datatype,
             dataset=dataset,
             table=table,
         )
-    if os.path.isdir(source_path):
+    elif os.path.isdir(source_path):
         source_path = os.path.join(source_path, '*.parquet')
 
     # initiate scan
@@ -64,23 +68,32 @@ def query(
                 filter &= other_filter
             lf = lf.filter(filter)
 
-    # pre filter sort
-    if pre_filter_sort is not None:
-        lf = lf.sort(pre_filter_sort, descending=pre_filter_descending)
-
     # filter unique
     if unique_columns is not None:
-        if unique_keep != 'all':
-            if unique_keep in ['last', 'first']:
-                lf = lf.unique(subset=unique_columns, keep=unique_keep)
-            else:
-                raise Exception('invalid value for keep')
+        if unique_keep is None:
+            raise Exception("must specify unique_keep (e.g. 'first', 'last', or 'any')")
 
-    # post filter sort
-    if sort is not None:
-        done = sort == pre_filter_sort and descending == pre_filter_descending
-        if not done:
-            lf = lf.sort(sort, descending=descending)
+        # maintain order if unique_sort equals output sort
+        if unique_sort is not None:
+            lf = lf.sort(unique_sort, descending=unique_descending)
+            already_sorted: bool = (
+                spec._polars_exprs_equal(sort, unique_sort) and (descending == unique_descending)
+            )
+        else:
+            already_sorted = False
+
+        # keep unique
+        lf = lf.unique(
+            maintain_order=already_sorted,
+            subset=unique_columns,
+            keep=unique_keep,
+        )
+    else:
+        already_sorted = False
+
+    # sort
+    if sort and not already_sorted:
+        lf = lf.sort(sort, descending=descending)
 
     # select columns
     if columns is not None:

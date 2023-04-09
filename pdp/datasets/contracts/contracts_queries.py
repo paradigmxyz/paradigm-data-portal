@@ -46,9 +46,10 @@ def get_contracts(
     init_code: str | bytes | None = None,
     init_code_hash: str | bytes | None = None,
     # outputs
-    sort: bool | spec.PolarsExpression = True,
+    sort: bool | spec.PolarsExpression = False,
     descending: bool = False,
-    unique_keep: typing.Literal['last', 'first', 'all'] = 'last',
+    unique: bool = False,
+    unique_keep: typing.Literal['last', 'first', 'any'] | None = 'last',
     columns: spec.PolarsExpression | None = None,
     output_binary: bool = True,
     # inputs
@@ -84,11 +85,22 @@ def get_contracts(
         binary_is_in_filters={'contract_address': contract_addresses},
     )
 
+    # keep unique contracts
+    if unique:
+        unique_sort = ['block_number', 'create_index']
+        unique_descending = False
+        unique_columns = ['contract_address']
+    else:
+        unique_sort = None
+        unique_descending = False
+        unique_columns = None
+
     # create sort expression
-    if (sort or (unique_keep != 'all')) and isinstance(sort, bool):
+    if sort and isinstance(sort, bool):
         sort = ['block_number', 'create_index']
 
     return query_utils.query(
+        datatype='contracts',
         filters=filters,
         sort=sort,
         descending=descending,
@@ -96,9 +108,10 @@ def get_contracts(
         output_binary=output_binary,
         source_path=source_path,
         network=network,
-        unique_columns=['contract_address'],
+        unique_columns=unique_columns,
+        unique_sort=unique_sort,
+        unique_descending=unique_descending,
         unique_keep=unique_keep,
-        datatype='contracts',
         scan_kwargs=scan_kwargs,
         collect=collect,
         streaming=streaming,
