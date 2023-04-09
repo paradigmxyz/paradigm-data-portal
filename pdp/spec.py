@@ -50,6 +50,9 @@ if typing.TYPE_CHECKING:
 
 global_version = '1.0.0'
 
+networks = {
+    1: 'ethereum',
+}
 
 #
 # # urls and paths

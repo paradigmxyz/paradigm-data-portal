@@ -1,14 +1,17 @@
 from __future__ import annotations
 
 import typing
+from pdp import spec
 
 if typing.TYPE_CHECKING:
     import types
     import toolsql
 
 
-def get_dataset_name(*, datatype: str, network: str) -> str:
+def get_dataset_name(*, datatype: str, network: str | int) -> str:
     """create dataset name based on metadata"""
+    if isinstance(network, int):
+        network = spec.networks[network]
     return network + '_' + datatype
 
 
