@@ -14,6 +14,7 @@ def query(
     filters: spec.PolarsExpression,
     # outputs
     columns: spec.PolarsExpression | None = None,
+    group_by: spec.PolarsExpression | None = None,
     output_binary: bool = True,
     sort: spec.PolarsExpression | None = None,
     descending: bool = False,
@@ -91,13 +92,27 @@ def query(
     else:
         already_sorted = False
 
-    # sort
-    if sort and not already_sorted:
-        lf = lf.sort(sort, descending=descending)
+    # group by
+    if group_by is not None:
 
-    # select columns
-    if columns is not None:
-        lf = lf.select(columns)
+        # group and aggregate
+        if columns is not None:
+            raise Exception('must specify columns for agg when using groupby')
+        lf = lf.groupby(group_by).agg(columns)
+
+        # sort
+        if sort:
+            lf = lf.sort(sort, descending=descending)
+
+    else:
+
+        # sort
+        if sort and not already_sorted:
+            lf = lf.sort(sort, descending=descending)
+
+        # select columns
+        if columns is not None:
+            lf = lf.select(columns)
 
     # encode binary as hex
     if not output_binary:
