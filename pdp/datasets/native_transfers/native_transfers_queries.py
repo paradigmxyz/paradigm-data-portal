@@ -9,7 +9,7 @@ if typing.TYPE_CHECKING:
     import polars as pl
 
 
-def get_native_transfers(
+def query_native_transfers(
     # filters
     from_address: str | bytes | None = None,
     to_address: str | bytes | None = None,

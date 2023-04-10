@@ -16,13 +16,13 @@ if typing.TYPE_CHECKING:
     import polars as pl
 
 
-def get_contract(
+def query_contract(
     contract_address: str | bytes, **kwargs: typing.Any
 ) -> contracts_spec.Contract | None:
     """return most recent deployment of contract"""
 
     # query data
-    result = get_contracts(contract_address=contract_address, collect=True, **kwargs)
+    result = query_contracts(contract_address=contract_address, collect=True, **kwargs)
 
     # convert to dict
     if len(result) == 0:
@@ -31,7 +31,7 @@ def get_contract(
         return result.to_dicts()[0]  # type: ignore
 
 
-def get_contracts(
+def query_contracts(
     *,
     # filters
     contract_address: str | bytes | None = None,

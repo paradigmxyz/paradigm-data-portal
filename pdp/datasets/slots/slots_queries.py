@@ -10,24 +10,24 @@ if typing.TYPE_CHECKING:
     import polars as pl
 
 
-def get_slots_of_contract(
+def query_slots_of_contract(
     contract_address: str | bytes,
     network: str | int | None = None,
     **query_kwargs: typing.Any
 ) -> pl.DataFrame:
-    return get_slots(
+    return query_slots(
         contract_address=contract_address,
         network=network,
         **query_kwargs,
     )
 
 
-def get_contract_slot_counts(
+def query_contract_slot_counts(
     network: str | int | None = None,
     **query_kwargs: typing.Any,
 ) -> pl.DataFrame:
     lf: pl.LazyFrame = (
-        get_slots(collect=False, **query_kwargs)  # type: ignore
+        query_slots(collect=False, **query_kwargs)  # type: ignore
         .groupby('contract_address')
         .agg(pl.count())
         .sort('counts', descending=True)
@@ -36,12 +36,12 @@ def get_contract_slot_counts(
     return lf.collect(streaming=True)
 
 
-def get_slot(
+def query_slot(
     contract_address: str | bytes,
     slot: str | bytes,
     network: str | int | None = None,
 ) -> slots_spec.Slot | None:
-    result = get_slots(
+    result = query_slots(
         contract_address=contract_address,
         slot=slot,
     )
@@ -51,7 +51,7 @@ def get_slot(
         return None
 
 
-def get_slots(
+def query_slots(
     # filters
     contract_address: str | bytes | None = None,
     contract_addresses: typing.Sequence[str | bytes] | None = None,
