@@ -16,13 +16,18 @@ if typing.TYPE_CHECKING:
 def generate_native_transfers_dataset(
     *,
     start_block: int,
-    end_block: int,
+    end_block: ctc.spec.BlockNumberReference,
     output_dir: str,
     network: ctc.spec.NetworkReference,
-    chunk_size: int = 1000,
-    output_filetype: str = 'csv',
+    chunk_size: int | None = None,
+    output_filetype: str | None = None,
     executor: typing.Literal['serial', 'parallel'] = 'parallel',
 ) -> None:
+
+    if chunk_size is None:
+        chunk_size = 1000
+    if output_filetype is None:
+        output_filetype = 'csv'
 
     dataset_name = pdp.get_versioned_dataset_name(
         datatype='native_transfers',
@@ -61,7 +66,7 @@ class _ExtractNativeTransfers(pdp.BlockChunkJobs):
 def _sync_extract_native_transfers(
     *,
     start_block: int,
-    end_block: int,
+    end_block: ctc.spec.BlockNumberReference,
     job_name: str,
     path: str,
     context: ctc.spec.Context,
@@ -83,7 +88,7 @@ def _sync_extract_native_transfers(
 async def _async_extract_native_transfers(
     *,
     start_block: int,
-    end_block: int,
+    end_block: ctc.spec.BlockNumberReference,
     path: str,
     context: ctc.spec.Context,
 ) -> None:

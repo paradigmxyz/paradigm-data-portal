@@ -11,16 +11,22 @@ if typing.TYPE_CHECKING:
     import ctc.spec
 
 
-def generate_slots(
+def generate_slots_dataset(
     *,
     start_block: int,
-    end_block: int,
+    end_block: ctc.spec.BlockNumberReference,
     output_dir: str,
     network: ctc.spec.NetworkReference,
-    chunk_size: int = 1000,
-    output_filetype: str = 'parquet',
+    chunk_size: int | None = None,
+    output_filetype: str | None = None,
     executor: typing.Literal['serial', 'parallel'] = 'parallel',
 ) -> None:
+
+    if chunk_size is None:
+        chunk_size = 1000
+    if output_filetype is None:
+        output_filetype = 'parquet'
+
     dataset_name = pdp.get_versioned_dataset_name(
         datatype='slots',
         network=network,
@@ -58,7 +64,7 @@ class _ExtractSlots(pdp.BlockChunkJobs):
 def _sync_extract_slots(
     *,
     start_block: int,
-    end_block: int,
+    end_block: ctc.spec.BlockNumberReference,
     job_name: str,
     path: str,
     context: ctc.spec.Context,
@@ -79,7 +85,7 @@ def _sync_extract_slots(
 async def _async_extract_slots(
     *,
     start_block: int,
-    end_block: int,
+    end_block: ctc.spec.BlockNumberReference,
     path: str,
     context: ctc.spec.Context,
 ) -> None:
