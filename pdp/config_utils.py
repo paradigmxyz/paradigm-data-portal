@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 
-from pdp import schema_utils
+from . import data_utils
 
 
 def get_data_root() -> str:
@@ -23,7 +23,7 @@ def get_dataset_path_template(
     if dataset is None:
         if network is None or datatype is None:
             raise Exception('must specify datatype and network to get dataset name')
-        dataset = schema_utils.get_dataset_name(
+        dataset = data_utils.get_dataset_name(
             datatype=datatype, network=network
         )
 

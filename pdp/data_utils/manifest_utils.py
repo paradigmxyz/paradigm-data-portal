@@ -4,9 +4,9 @@ import os
 import shutil
 import typing
 
+from .. import spec
 from . import file_utils
 from . import schema_utils
-from . import spec
 
 if typing.TYPE_CHECKING:
     import toolsql

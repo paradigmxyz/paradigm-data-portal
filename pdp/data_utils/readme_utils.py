@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import os
 
+from .. import spec
 from . import download_utils
 from . import schema_utils
-from . import spec
 
 
 readme_template = """

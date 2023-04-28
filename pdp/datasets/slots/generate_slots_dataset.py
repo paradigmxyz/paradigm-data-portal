@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-
-from ctc.toolbox.batch_utils import extract_slots
+from ctc.datasets import extract_slots
 
 
 output_dir = '/Users/stormslivkoff/repos/paradigm-data-portal/datasets/ethereum_slots_raw'

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 
-from ctc.toolbox.batch_utils import extract_create_traces
+from ctc.datasets import extract_create_traces
 
 
 output_dir = '/Users/stormslivkoff/data/pdp/raw_data/ethereum_contracts_1.1_raw'

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import typing
-from pdp import spec
+
+from .. import spec
 
 if typing.TYPE_CHECKING:
     import types

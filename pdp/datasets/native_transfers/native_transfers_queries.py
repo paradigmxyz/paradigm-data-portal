@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import typing
 
-from pdp import query_utils
-from pdp import spec
+import pdp
 
 if typing.TYPE_CHECKING:
     import polars as pl
@@ -19,10 +18,10 @@ def query_native_transfers(
     end_block: int | None = None,
     block_number: int | None = None,
     # outputs
-    sort: bool | spec.PolarsExpression = True,
+    sort: bool | pdp.PolarsExpression = True,
     descending: bool = False,
     unique_keep: typing.Literal['last', 'first', 'any'] = 'last',
-    columns: spec.PolarsExpression | None = None,
+    columns: pdp.PolarsExpression | None = None,
     output_binary: bool = True,
     # inputs
     source_path: str | None = None,
@@ -46,7 +45,7 @@ def query_native_transfers(
         'from_addresses': from_addresses,
         'to_addresses': to_addresses,
     }
-    filters = query_utils._create_filters(
+    filters = pdp.create_query_filters(
         binary_filters=binary_filters,
         block_filters=block_filters,
         binary_is_in_filters=binary_is_in_filters,
@@ -55,7 +54,7 @@ def query_native_transfers(
     if sort and isinstance(sort, bool):
         sort = ['block_number', 'transfer_index']
 
-    return query_utils.query(
+    return pdp.query(
         datatype='native_transfers',
         filters=filters,
         sort=sort,

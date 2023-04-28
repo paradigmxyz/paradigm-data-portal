@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 
-from ctc.toolbox.batch_utils import extract_native_transfers
+from ctc.datasets import extract_native_transfers
 
 
 output_dir = '/Users/stormslivkoff/repos/paradigm-data-portal/datasets/ethereum_native_transfers_raw'

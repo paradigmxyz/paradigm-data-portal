@@ -8,8 +8,8 @@ from __future__ import annotations
 import typing
 
 import ctc
-from pdp import query_utils
-from pdp import spec
+
+import pdp
 from . import contracts_spec
 
 if typing.TYPE_CHECKING:
@@ -46,11 +46,11 @@ def query_contracts(
     init_code: str | bytes | None = None,
     init_code_hash: str | bytes | None = None,
     # outputs
-    sort: bool | spec.PolarsExpression = False,
+    sort: bool | pdp.PolarsExpression = False,
     descending: bool = False,
     unique: bool = False,
     unique_keep: typing.Literal['last', 'first', 'any'] | None = 'last',
-    columns: spec.PolarsExpression | None = None,
+    columns: pdp.PolarsExpression | None = None,
     output_binary: bool = True,
     # inputs
     source_path: str | None = None,
@@ -79,7 +79,7 @@ def query_contracts(
         'code_hash': code_hash,
         'init_code_hash': init_code_hash,
     }
-    filters = query_utils._create_filters(
+    filters = pdp.create_query_filters(
         binary_filters=binary_filters,
         block_filters=block_filters,
         binary_is_in_filters={'contract_address': contract_addresses},
@@ -99,7 +99,7 @@ def query_contracts(
     if sort and isinstance(sort, bool):
         sort = ['block_number', 'create_index']
 
-    return query_utils.query(
+    return pdp.query(
         datatype='contracts',
         filters=filters,
         sort=sort,

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import typing
 
-from pdp import query_utils
-from pdp import spec
+import pdp
 from . import slots_spec
 
 if typing.TYPE_CHECKING:
@@ -58,9 +57,9 @@ def query_slots(
     slot: str | bytes | None = None,
     slots: typing.Sequence[str | bytes] | None = None,
     # outputs
-    sort: bool | spec.PolarsExpression = True,
+    sort: bool | pdp.PolarsExpression = True,
     unique_keep: typing.Literal['last', 'first', 'all'] = 'last',
-    columns: spec.PolarsExpression | None = None,
+    columns: pdp.PolarsExpression | None = None,
     output_binary: bool = True,
     # inputs
     source_path: str | None = None,
@@ -79,12 +78,12 @@ def query_slots(
         'contract_addresses': contract_addresses,
         'slots': slots,
     }
-    filters = query_utils._create_filters(
+    filters = pdp.create_query_filters(
         binary_filters=binary_filters,
         binary_is_in_filters=binary_is_in_filters,
     )
 
-    return query_utils.query(
+    return pdp.query(
         filters=filters,
         sort=sort,
         columns=columns,

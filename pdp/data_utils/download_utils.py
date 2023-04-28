@@ -5,10 +5,10 @@ from __future__ import annotations
 import os
 import typing
 
+from .. import spec
 from . import file_utils
 from . import manifest_utils
 from . import schema_utils
-from . import spec
 
 
 def download_dataset(
