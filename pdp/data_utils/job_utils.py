@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import math
 import typing
 
 import tooljob
@@ -40,6 +39,8 @@ class BlockChunkJobs(tooljob.Batch):
     #
 
     def get_n_jobs(self) -> int:
+        import math
+
         n_blocks = self.end_block - self.start_block + 1
         return math.floor(n_blocks / self.chunk_size)
 

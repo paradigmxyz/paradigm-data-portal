@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import shutil
 import typing
 
 from .. import spec
@@ -116,6 +115,8 @@ def create_global_manifest(
 
     # write output file
     if output_path is not None and output_path:
+        import shutil
+
         if isinstance(output_path, bool):
             if data_root is not None:
                 output_dir = data_root
@@ -280,6 +281,8 @@ def create_dataset_manifest(
 
     # save manifest
     if output_path is not None and output_path:
+        import shutil
+
         with open(output_path + '_tmp', 'w') as f:
             json.dump(manifest, f, indent=4, sort_keys=True)
 
