@@ -68,7 +68,7 @@ def create_global_manifest(
     output_path: str | bool | None = None,
     confirm: bool = False,
 ) -> spec.GlobalManifest:
-    """generate global manifest describing all datasets"""
+    """create global manifest describing all datasets"""
 
     import json
 

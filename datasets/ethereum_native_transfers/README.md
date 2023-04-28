@@ -3,7 +3,7 @@
 
 This is a dataset of all native transfers in similar format to ERC20 Transfers (excluding tx fees)
 
-The dataset was created by using [this script](https://github.com/paradigmxyz/paradigm-data-portal/blob/main/pdp/generate/generate_native_transfers_dataset.py)
+The dataset was created by using [this script](https://github.com/paradigmxyz/paradigm-data-portal/blob/main/pdp/datasets/native_transfers/native_transfers_collect.py)
 
 Data is distributed as [parquet](https://data.paradigm.xyz/about) files and released into the public domain under a [CC0 license](https://creativecommons.org/share-your-work/public-domain/cc0/)
 

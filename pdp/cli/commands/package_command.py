@@ -19,7 +19,7 @@ def get_command_spec() -> toolcli.CommandSpec:
             },
             {
                 'name': '--global',
-                'help': 'generate a global manifest instead of a dataset manifest',
+                'help': 'create a global manifest instead of a dataset manifest',
                 'action': 'store_true',
                 'dest': 'global_manifest',
             },
@@ -101,7 +101,7 @@ def package_command(
         else:
             raise Exception('unknown output_path type: ' + str(output_path))
 
-        # generate readme
+        # create readme
         pdp.create_dataset_readme(
             dataset_manifest=dataset_manifest,
             output_path=readme_path,

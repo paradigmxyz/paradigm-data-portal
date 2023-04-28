@@ -15,9 +15,9 @@ def run_cli(raw_command: str | None = None) -> None:
 
     command_index: toolcli.CommandIndex = {
         ('',): 'pdp.cli.commands.root_command',
+        ('collect',): 'pdp.cli.commands.collect_command',
         ('dataset',): 'pdp.cli.commands.dataset_command',
         ('download',): 'pdp.cli.commands.download_command',
-        ('generate',): 'pdp.cli.commands.generate_command',
         ('ls',): 'pdp.cli.commands.ls_command',
         ('package',): 'pdp.cli.commands.package_command',
         ('upload',): 'pdp.cli.commands.upload_command',

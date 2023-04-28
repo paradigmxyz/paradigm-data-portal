@@ -10,19 +10,19 @@ if typing.TYPE_CHECKING:
     import ctc.spec
 
 
-help_message = """generate a dataset
+help_message = """collect a dataset
 
-requires ctc to be installed and configured"""
+collecting on-chain datasets requires ctc to be installed and configured"""
 
 
 def get_command_spec() -> toolcli.CommandSpec:
     return {
-        'f': generate_command,
-        'help': 'generate a datset',
+        'f': collect_command,
+        'help': 'collect a dataset',
         'hidden': True,
         'args': [
-            {'name': 'dataset', 'help': 'name of dataset to generate'},
-            {'name': 'blocks', 'nargs': '?', 'help': 'name of dataset to generate'},
+            {'name': 'dataset', 'help': 'name of dataset to collect'},
+            {'name': 'blocks', 'nargs': '?', 'help': 'name of dataset to collect'},
             {'name': '--output-dir', 'help': 'output directory of dataset'},
             {'name': '--chunk-size', 'help': 'blocks per chunk'},
             {
@@ -49,7 +49,7 @@ def get_command_spec() -> toolcli.CommandSpec:
     }
 
 
-def generate_command(
+def collect_command(
     dataset: str,
     blocks: str,
     output_dir: str | None,
@@ -107,7 +107,7 @@ def generate_command(
     if datatype == 'contracts':
         from pdp.datasets import contracts
 
-        contracts.generate_contracts_dataset(
+        contracts.collect_contracts_dataset(
             start_block=start_block,
             end_block=end_block,
             output_dir=output_dir,
@@ -119,7 +119,7 @@ def generate_command(
     elif datatype == 'native_transfers':
         from pdp.datasets import native_transfers
 
-        native_transfers.generate_native_transfers_dataset(
+        native_transfers.collect_native_transfers_dataset(
             start_block=start_block,
             end_block=end_block,
             output_dir=output_dir,
@@ -131,7 +131,7 @@ def generate_command(
     elif datatype == 'slots':
         from pdp.datasets import slots
 
-        slots.generate_slots_dataset(
+        slots.collect_slots_dataset(
             start_block=start_block,
             end_block=end_block,
             output_dir=output_dir,

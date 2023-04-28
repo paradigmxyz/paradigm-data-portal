@@ -48,7 +48,7 @@ See `pdp download -h` for available options
 {file_urls}
 """
 
-script_url_template = 'https://github.com/paradigmxyz/paradigm-data-portal/blob/main/pdp/generate/generate_{datatype}_dataset.py'
+script_url_template = 'https://github.com/paradigmxyz/paradigm-data-portal/blob/main/pdp/datasets/{dataset}/{dataset}_collect.py'
 
 notebook_url_template = 'https://github.com/paradigmxyz/paradigm-data-portal/blob/main/notebooks/explore_{dataset_name}.ipynb'
 
@@ -67,7 +67,7 @@ def create_dataset_readme(
 
     import shutil
 
-    readme_str = _generate_readme_str(dataset_manifest)
+    readme_str = _create_readme_str(dataset_manifest)
 
     if output_path is not None and output_path:
         if isinstance(output_path, bool):
@@ -82,7 +82,7 @@ def create_dataset_readme(
     return readme_str
 
 
-def _generate_readme_str(dataset_manifest: spec.DatasetManifest) -> str:
+def _create_readme_str(dataset_manifest: spec.DatasetManifest) -> str:
 
     import toolsql
     import toolstr
@@ -157,9 +157,7 @@ def _generate_readme_str(dataset_manifest: spec.DatasetManifest) -> str:
         example_usage=example_usage_str,
         schema=schema_str,
         dataset_size=toolstr.format_nbytes(dataset_nbytes),
-        script_url=script_url_template.format(
-            datatype=dataset_manifest['datatype']
-        ),
+        script_url=script_url_template.format(dataset=dataset_manifest['name']),
         notebook_str=notebook_str,
         file_urls=url_str,
     )

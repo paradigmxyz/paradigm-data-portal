@@ -3,7 +3,7 @@
 
 This is a dataset of all historical contract deployments
 
-The dataset was created by using [this script](https://github.com/paradigmxyz/paradigm-data-portal/blob/main/pdp/generate/generate_contracts_dataset.py)
+The dataset was created by using [this script](https://github.com/paradigmxyz/paradigm-data-portal/blob/main/pdp/datasets/contracts/contracts_collect.py)
 
 Data is distributed as [parquet](https://data.paradigm.xyz/about) files and released into the public domain under a [CC0 license](https://creativecommons.org/share-your-work/public-domain/cc0/)
 

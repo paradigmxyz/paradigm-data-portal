@@ -11,7 +11,7 @@ if typing.TYPE_CHECKING:
     import ctc.spec
 
 
-def generate_slots_dataset(
+def collect_slots_dataset(
     *,
     start_block: int,
     end_block: ctc.spec.BlockNumberReference,
