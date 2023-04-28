@@ -16,6 +16,13 @@ def get_dataset_name(*, datatype: str, network: str | int) -> str:
     return network + '_' + datatype
 
 
+def get_versioned_dataset_name(*, datatype: str, network: str | int, version: str) -> str:
+    """create versioned dataset name for use in file names"""
+    dataset_name = get_dataset_name(datatype=datatype, network=network)
+    version_str = 'v' + version.replace('.', '_')
+    return dataset_name + '__' + version_str
+
+
 def parse_dataset_name(dataset: str) -> typing.Mapping[str, str]:
     """parse metadata from a dataset name"""
     network, datatype = dataset.split('_', maxsplit=1)
