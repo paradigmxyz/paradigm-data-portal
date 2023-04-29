@@ -4,6 +4,7 @@ import os
 import typing
 
 from . import data_utils
+from . import spec
 
 
 @typing.overload
@@ -23,8 +24,8 @@ def get_data_root() -> str:
 
 def get_data_root(*, require: bool = True) -> str | None:
     data_root = os.environ.get('PDP_DATA_ROOT')
-    if data_root is None or data_root == '':
-        raise Exception('PDP_DATA_ROOT not set, so must specify paths manually')
+    if (data_root is None or data_root == '') and require:
+        raise Exception('PDP_DATA_ROOT not set')
     return data_root
 
 
@@ -50,4 +51,23 @@ def get_dataset_path_template(
         filename = table + '_*.parquet'
 
     return os.path.join(get_data_root(), dataset, filename)
+
+
+def get_local_datasets(
+    data_root: str | None = None,
+) -> typing.Sequence[str]:
+    if data_root is None:
+        data_root = get_data_root(require=True)
+
+    data_dirs = []
+    for subdir in os.listdir(data_root):
+        subpath = os.path.join(data_root, subdir)
+        if os.path.isdir(subpath):
+            manifest_path = os.path.join(
+                subpath, spec.dataset_manifest_filename
+            )
+            if os.path.isfile(manifest_path):
+                data_dirs.append(subdir)
+
+    return data_dirs
 

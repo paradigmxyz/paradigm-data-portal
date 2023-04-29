@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import typing
 
+from .. import config_utils
 from .. import spec
 from . import file_utils
 from . import schema_utils
@@ -12,51 +13,91 @@ if typing.TYPE_CHECKING:
 
 
 def get_global_manifest(
-    *, portal_root: str | None = None
+    *,
+    portal_root: str | None = None,
+    source: typing.Literal['remote', 'local'] = 'remote',
 ) -> spec.GlobalManifest:
     """get global manifest of all datasets"""
 
-    import requests
+    if source == 'remote':
 
-    # build url
-    if portal_root is None:
-        portal_root = spec.portal_root
-    url = spec.urls['global_manifest'].format(portal_root=portal_root)
+        import requests
 
-    # get manifest
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception('could not obtain global manifest at url: ' + str(url))
-    manifest: spec.GlobalManifest = response.json()
+        # build url
+        if portal_root is None:
+            portal_root = spec.portal_root
+        url = spec.urls['global_manifest'].format(portal_root=portal_root)
 
-    return manifest
+        # get manifest
+        response = requests.get(url)
+        if response.status_code != 200:
+            raise Exception('could not obtain global manifest at url: ' + str(url))
+        manifest: spec.GlobalManifest = response.json()
+
+        return manifest
+
+    elif source == 'local':
+        import json
+
+        if portal_root is not None:
+            data_root = portal_root
+        else:
+            data_root = config_utils.get_data_root(require=True)
+        path = os.path.join(data_root, spec.global_manifest_filename)
+        with open(path, 'r') as f:
+            result: spec.GlobalManifest = json.load(f)
+            return result
+
+    else:
+        raise Exception('invalid source: ' + str(source))
 
 
 def get_dataset_manifest(
-    dataset: str, *, portal_root: str | None = None
+    dataset: str,
+    *,
+    portal_root: str | None = None,
+    source: typing.Literal['remote', 'local'] = 'remote',
 ) -> spec.DatasetManifest:
     """get manifest of a particular dataset"""
 
-    import requests
+    if source == 'remote':
+        import requests
 
-    parsed = schema_utils.parse_dataset_name(dataset)
+        parsed = schema_utils.parse_dataset_name(dataset)
 
-    # build url
-    if portal_root is None:
-        portal_root = spec.portal_root
-    url = spec.urls['dataset_manifest'].format(
-        portal_root=portal_root,
-        datatype=parsed['datatype'],
-        network=parsed['network'],
-    )
+        # build url
+        if portal_root is None:
+            portal_root = spec.portal_root
+        url = spec.urls['dataset_manifest'].format(
+            portal_root=portal_root,
+            datatype=parsed['datatype'],
+            network=parsed['network'],
+        )
 
-    # get manifest
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception('could not obtain dataset manifest at url: ' + str(url))
-    manifest: spec.DatasetManifest = response.json()
+        # get manifest
+        response = requests.get(url)
+        if response.status_code != 200:
+            raise Exception(
+                'could not obtain dataset manifest at url: ' + str(url)
+            )
+        manifest: spec.DatasetManifest = response.json()
 
-    return manifest
+        return manifest
+
+    elif source == 'local':
+        import json
+
+        if portal_root is not None:
+            data_root = portal_root
+        else:
+            data_root = config_utils.get_data_root(require=True)
+        path = os.path.join(data_root, dataset, spec.dataset_manifest_filename)
+        with open(path, 'r') as f:
+            result: spec.DatasetManifest = json.load(f)
+            return result
+
+    else:
+        raise Exception('invalid source: ' + str(source))
 
 
 def create_global_manifest(
