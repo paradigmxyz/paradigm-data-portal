@@ -94,6 +94,8 @@ async def _async_extract_native_transfers(
     path: str,
     context: ctc.spec.Context,
 ) -> None:
+    ctc = pdp.get_ctc()
+    import ctc.rpc
     from ctc.toolbox import pl_utils
 
     transfers = await ctc.async_trace_native_transfers(

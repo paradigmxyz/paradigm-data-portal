@@ -92,6 +92,7 @@ def collect_command(
         context = {'network': network, 'provider': rpc}
 
     if blocks is None:
+        ctc = pdp.get_ctc()
         start_block = 0
         end_block = ctc.rpc.sync_eth_block_number(context=context)
     else:
@@ -109,6 +110,7 @@ def collect_command(
         else:
             start_block = int(start_block_str)
         if end_block_str == '':
+            ctc = pdp.get_ctc()
             end_block = ctc.rpc.sync_eth_block_number(context=context)
         else:
             end_block = int(end_block_str)

@@ -10,7 +10,7 @@ import pdp
 
 def cd_dir_help() -> typing.Mapping[str, str]:
     dir_dict = {
-        '\[data_root]': 'directory where ctc code is stored',
+        '\[data_root]': 'directory where pdp datasets are stored',
     }
     local_datasets = pdp.get_local_datasets()
     for dataset in local_datasets:
@@ -48,7 +48,7 @@ def cd_dir_getter(dirname: str) -> str:
 def run_cli(raw_command: str | None = None) -> None:
     import tempfile
 
-    help_cache_dir = os.path.join(tempfile.gettempdir(), 'ctc', 'help_cache')
+    help_cache_dir = os.path.join(tempfile.gettempdir(), 'pdp', 'help_cache')
 
     command_index: toolcli.CommandIndex = {
         ('',): 'pdp.cli.commands.root_command',

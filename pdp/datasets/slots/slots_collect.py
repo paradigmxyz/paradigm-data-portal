@@ -91,6 +91,8 @@ async def _async_extract_slots(
     path: str,
     context: ctc.spec.Context,
 ) -> None:
+    ctc = pdp.get_ctc()
+    import ctc.rpc
     from ctc.toolbox import pl_utils
 
     df = await ctc.async_trace_slot_stats(

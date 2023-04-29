@@ -21,7 +21,6 @@ def collect_contracts_dataset(
     executor: typing.Literal['serial', 'parallel'] = 'parallel',
     verbose: bool = False,
 ) -> None:
-
     if chunk_size is None:
         chunk_size = 1000
     if output_filetype is None:
@@ -71,6 +70,8 @@ async def _async_trace_blocks(
     context: ctc.spec.Context,
 ) -> None:
     import polars as pl
+
+    ctc = pdp.get_ctc()
     import ctc.rpc
     from ctc.toolbox import pl_utils
 
