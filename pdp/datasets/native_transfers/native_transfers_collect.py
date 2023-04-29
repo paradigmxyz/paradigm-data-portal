@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import shutil
 import typing
 
 import polars as pl
@@ -95,6 +94,7 @@ async def _async_extract_native_transfers(
     path: str,
     context: ctc.spec.Context,
 ) -> None:
+    from ctc.toolbox import pl_utils
 
     transfers = await ctc.async_trace_native_transfers(
         start_block=start_block,
@@ -117,7 +117,5 @@ async def _async_extract_native_transfers(
             ('value', pl.datatypes.Utf8),
         ],
     )
-    temp_path = path + '_temp'
-    df.write_csv(temp_path)
-    shutil.move(temp_path, path)
+    pl_utils.write_df(df=df, path=path, create_dir=True)
 

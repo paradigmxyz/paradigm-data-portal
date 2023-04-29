@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import shutil
 import typing
 
 import pdp
@@ -92,6 +91,8 @@ async def _async_extract_slots(
     path: str,
     context: ctc.spec.Context,
 ) -> None:
+    from ctc.toolbox import pl_utils
+
     df = await ctc.async_trace_slot_stats(
         start_block=start_block,
         end_block=end_block,
@@ -100,7 +101,5 @@ async def _async_extract_slots(
 
     await ctc.rpc.async_close_http_session()
 
-    temp_path = path + '_temp'
-    df.write_parquet(temp_path)
-    shutil.move(temp_path, path)
+    pl_utils.write_df(df=df, path=path, create_dir=True)
 

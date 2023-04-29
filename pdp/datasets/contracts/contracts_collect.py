@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import os
-import shutil
 import typing
 
 import pdp
@@ -72,8 +70,9 @@ async def _async_trace_blocks(
     path: str,
     context: ctc.spec.Context,
 ) -> None:
-    import ctc.rpc
     import polars as pl
+    import ctc.rpc
+    from ctc.toolbox import pl_utils
 
     create_traces = await ctc.async_trace_contract_creations(
         start_block=start_block,
@@ -81,11 +80,9 @@ async def _async_trace_blocks(
         context=context,
     )
     await ctc.rpc.async_close_http_session()
-    os.makedirs(os.path.dirname(path), exist_ok=True)
 
-    temp_path = path + '_temp'
-    pl.DataFrame(create_traces).write_csv(temp_path)
-    shutil.move(temp_path, path)
+    df = pl.DataFrame(create_traces)
+    pl_utils.write_df(df=df, path=path, create_dir=True)
 
     return None
 

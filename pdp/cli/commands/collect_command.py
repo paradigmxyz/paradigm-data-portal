@@ -87,7 +87,7 @@ def collect_command(
     network = parsed['network']
 
     if rpc is None:
-        context = {'network': network}
+        context: ctc.spec.Context = {'network': network}
     else:
         context = {'network': network, 'provider': rpc}
 
