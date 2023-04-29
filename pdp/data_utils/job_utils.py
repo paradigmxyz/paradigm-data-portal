@@ -84,7 +84,6 @@ class BlockChunkJobs(tooljob.Batch):
         start_block: int | None = None,
         end_block: int | None = None,
     ) -> str:
-
         if i is not None and (start_block is not None or end_block is not None):
             raise Exception('specify either job or start_block and end_block')
         elif i is not None:
@@ -106,20 +105,51 @@ class BlockChunkJobs(tooljob.Batch):
     # # summary
     #
 
-    def print_conclusion_section(
-        self, *args: typing.Any, **kwargs: typing.Any
+    def print_additional_status(self) -> None:
+        import toolstr
+
+        toolstr.print_bullet(
+            key='n_blocks',
+            value=self.end_block - self.start_block + 1,
+            styles=self.styles,
+        )
+
+    def print_additional_conclusion(
+        self,
+        start_time: int | float,
+        end_time: int | float,
+        jobs: typing.Sequence[int],
     ) -> None:
         import toolstr
 
-        duration = kwargs['end_time'] - kwargs['start_time']
-        n_blocks = len(kwargs['jobs']) * self.chunk_size
+        duration = end_time - start_time
+        n_blocks = len(jobs) * self.chunk_size
         bps = n_blocks / duration
-        print()
-        print('- blocks covered:', toolstr.format(n_blocks))
-        print('- blocks per second:', toolstr.format(bps, decimals=2))
-        print('- blocks per minute:', toolstr.format(bps * 60, decimals=2))
-        print('- blocks per hour:', toolstr.format(bps * 60 * 60, decimals=2))
-        print('- blocks per day:', toolstr.format(bps * 86400, decimals=2))
+        toolstr.print_bullet(
+            key='blocks covered',
+            value=toolstr.format(n_blocks),
+            styles=self.styles,
+        )
+        toolstr.print_bullet(
+            key='blocks per second',
+            value=toolstr.format(bps, decimals=2),
+            styles=self.styles,
+        )
+        toolstr.print_bullet(
+            key='blocks per minute',
+            value=toolstr.format(bps * 60, decimals=2),
+            styles=self.styles,
+        )
+        toolstr.print_bullet(
+            key='blocks per hour',
+            value=toolstr.format(bps * 60 * 60, decimals=2),
+            styles=self.styles,
+        )
+        toolstr.print_bullet(
+            key='blocks per day',
+            value=toolstr.format(bps * 86400, decimals=2),
+            styles=self.styles,
+        )
 
     def summarize_blocks_per_second(
         self, sample_time: int = 60
