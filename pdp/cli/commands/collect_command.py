@@ -23,15 +23,18 @@ def get_command_spec() -> toolcli.CommandSpec:
         'args': [
             {'name': 'dataset', 'help': 'name of dataset to collect'},
             {
+                'name': 'output-dir',
+                'nargs': '?',
+                'help': 'output directory, omit to use PDP_DATA_ROOT',
+            },
+            {
                 'name': '--blocks',
                 'help': 'block range, as `\[start_block]:\[end_block]`',
             },
             {
-                'name': 'output-dir',
-                'nargs': '?',
-                'help': 'output directory of dataset',
+                'name': '--rpc',
+                'help': 'rpc node url, omit to use ctc configuration',
             },
-            {'name': '--chunk-size', 'help': 'blocks per chunk'},
             {
                 'name': '--csv',
                 'help': 'use csv as output format',
@@ -46,6 +49,10 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'name': '--serial',
                 'help': 'use serial execution instead of parallel',
                 'action': 'store_true',
+            },
+            {
+                'name': '--chunk-size',
+                'help': 'blocks per chunk',
             },
             {
                 'name': ('-v', '--verbose'),
@@ -64,6 +71,7 @@ def get_command_spec() -> toolcli.CommandSpec:
 def collect_command(
     dataset: str,
     blocks: str | None,
+    rpc: str | None,
     output_dir: str | None,
     chunk_size: str | None,
     csv: bool,
@@ -71,13 +79,21 @@ def collect_command(
     serial: bool,
     verbose: bool,
 ) -> None:
-    # parse inputs
+    #
+    # # parse inputs
+    #
     parsed = pdp.parse_dataset_name(dataset)
     datatype = parsed['datatype']
     network = parsed['network']
+
+    if rpc is None:
+        context = {'network': network}
+    else:
+        context = {'network': network, 'provider': rpc}
+
     if blocks is None:
         start_block = 0
-        end_block = ctc.rpc.sync_eth_block_number(context={'network': network})
+        end_block = ctc.rpc.sync_eth_block_number(context=context)
     else:
         if ':' not in blocks:
             print('must specify block range using one of these formats:')
@@ -93,9 +109,7 @@ def collect_command(
         else:
             start_block = int(start_block_str)
         if end_block_str == '':
-            end_block = ctc.rpc.sync_eth_block_number(
-                context={'network': network}
-            )
+            end_block = ctc.rpc.sync_eth_block_number(context=context)
         else:
             end_block = int(end_block_str)
 
@@ -124,6 +138,10 @@ def collect_command(
         executor: typing.Literal['parallel', 'serial'] = 'serial'
     else:
         executor = 'parallel'
+
+    #
+    # # perform collection
+    #
 
     if datatype == 'contracts':
         from pdp.datasets import contracts
