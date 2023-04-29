@@ -16,7 +16,7 @@ def get_global_manifest(
 ) -> spec.GlobalManifest:
     """get global manifest of all datasets"""
 
-    import requests  # type: ignore
+    import requests
 
     # build url
     if portal_root is None:

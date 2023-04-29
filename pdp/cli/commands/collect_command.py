@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import typing
 
 import toolcli
@@ -19,11 +20,17 @@ def get_command_spec() -> toolcli.CommandSpec:
     return {
         'f': collect_command,
         'help': 'collect a dataset',
-        'hidden': True,
         'args': [
             {'name': 'dataset', 'help': 'name of dataset to collect'},
-            {'name': 'blocks', 'nargs': '?', 'help': 'name of dataset to collect'},
-            {'name': '--output-dir', 'help': 'output directory of dataset'},
+            {
+                'name': '--blocks',
+                'help': 'block range, as `\[start_block]:\[end_block]`',
+            },
+            {
+                'name': '--output-dir',
+                'nargs': '?',
+                'help': 'output directory of dataset',
+            },
             {'name': '--chunk-size', 'help': 'blocks per chunk'},
             {
                 'name': '--csv',
@@ -51,7 +58,7 @@ def get_command_spec() -> toolcli.CommandSpec:
 
 def collect_command(
     dataset: str,
-    blocks: str,
+    blocks: str | None,
     output_dir: str | None,
     chunk_size: str | None,
     csv: bool,
@@ -59,14 +66,19 @@ def collect_command(
     serial: bool,
 ) -> None:
     # parse inputs
+    parsed = pdp.parse_dataset_name(dataset)
+    datatype = parsed['datatype']
+    network = parsed['network']
     if blocks is None:
         start_block = 0
-        end_block: ctc.spec.BlockNumberReference = 'latest'
+        end_block = ctc.rpc.sync_eth_block_number(context={'network': network})
     else:
         if ':' not in blocks:
             print('must specify block range using one of these formats:')
             print('    `start_block:end_block`')
-            print('    `start_block:`           (use latest block as end_block)')
+            print(
+                '    `start_block:`           (use latest block as end_block)'
+            )
             print('    `:end_block`             (use block 0 as start_block)')
             return
         start_block_str, end_block_str = blocks.split(':')
@@ -75,12 +87,20 @@ def collect_command(
         else:
             start_block = int(start_block_str)
         if end_block_str == '':
-            end_block = 'latest'
+            end_block = ctc.rpc.sync_eth_block_number(
+                context={'network': network}
+            )
         else:
             end_block = int(end_block_str)
 
     if output_dir is None:
-        output_dir = '.'
+        data_root = pdp.get_data_root(require=False)
+        if data_root is None or data_root == '':
+            raise Exception(
+                'must specify output_dir or set PDP_DATA_ROOT env var'
+            )
+        else:
+            output_dir = os.path.join(data_root, dataset)
 
     if chunk_size is not None:
         chunk_size_int = int(chunk_size)
@@ -98,11 +118,6 @@ def collect_command(
         executor: typing.Literal['parallel', 'serial'] = 'serial'
     else:
         executor = 'parallel'
-
-    # get generator module
-    parsed = pdp.parse_dataset_name(dataset)
-    datatype = parsed['datatype']
-    network = parsed['network']
 
     if datatype == 'contracts':
         from pdp.datasets import contracts

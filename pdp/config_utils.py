@@ -1,11 +1,27 @@
 from __future__ import annotations
 
 import os
+import typing
 
 from . import data_utils
 
 
+@typing.overload
+def get_data_root(*, require: typing.Literal[True]) -> str:
+    ...
+
+
+@typing.overload
+def get_data_root(*, require: bool) -> str | None:
+    ...
+
+
+@typing.overload
 def get_data_root() -> str:
+    ...
+
+
+def get_data_root(*, require: bool = True) -> str | None:
     data_root = os.environ.get('PDP_DATA_ROOT')
     if data_root is None or data_root == '':
         raise Exception('PDP_DATA_ROOT not set, so must specify paths manually')
@@ -19,10 +35,11 @@ def get_dataset_path_template(
     network: str | int | None = None,
     datatype: str | None = None,
 ) -> str:
-
     if dataset is None:
         if network is None or datatype is None:
-            raise Exception('must specify datatype and network to get dataset name')
+            raise Exception(
+                'must specify datatype and network to get dataset name'
+            )
         dataset = data_utils.get_dataset_name(
             datatype=datatype, network=network
         )

@@ -16,7 +16,7 @@ if typing.TYPE_CHECKING:
 def collect_native_transfers_dataset(
     *,
     start_block: int,
-    end_block: ctc.spec.BlockNumberReference,
+    end_block: int,
     output_dir: str,
     network: ctc.spec.NetworkReference,
     chunk_size: int | None = None,
