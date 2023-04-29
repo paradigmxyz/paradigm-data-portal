@@ -21,6 +21,7 @@ def collect_contracts_dataset(
     chunk_size: int | None = None,
     output_filetype: str | None = None,
     executor: typing.Literal['serial', 'parallel'] = 'parallel',
+    verbose: bool = False,
 ) -> None:
 
     if chunk_size is None:
@@ -43,6 +44,8 @@ def collect_contracts_dataset(
         output_filetype=output_filetype,
         name=dataset_name,
         context={'network': network},
+        styles=pdp.styles,
+        verbose=verbose,
     )
 
     extractor.orchestrate_jobs(executor=executor)

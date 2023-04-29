@@ -27,7 +27,7 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'help': 'block range, as `\[start_block]:\[end_block]`',
             },
             {
-                'name': '--output-dir',
+                'name': 'output-dir',
                 'nargs': '?',
                 'help': 'output directory of dataset',
             },
@@ -47,6 +47,11 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'help': 'use serial execution instead of parallel',
                 'action': 'store_true',
             },
+            {
+                'name': ('-v', '--verbose'),
+                'help': 'output additional information',
+                'action': 'store_true',
+            },
         ],
         'examples': [
             'ethereum_contracts',
@@ -64,6 +69,7 @@ def collect_command(
     csv: bool,
     parquet: bool,
     serial: bool,
+    verbose: bool,
 ) -> None:
     # parse inputs
     parsed = pdp.parse_dataset_name(dataset)
@@ -130,6 +136,7 @@ def collect_command(
             chunk_size=chunk_size_int,
             output_filetype=output_filetype,
             executor=executor,
+            verbose=verbose,
         )
     elif datatype == 'native_transfers':
         from pdp.datasets import native_transfers
@@ -142,6 +149,7 @@ def collect_command(
             chunk_size=chunk_size_int,
             output_filetype=output_filetype,
             executor=executor,
+            verbose=verbose,
         )
     elif datatype == 'slots':
         from pdp.datasets import slots
@@ -154,6 +162,7 @@ def collect_command(
             chunk_size=chunk_size_int,
             output_filetype=output_filetype,
             executor=executor,
+            verbose=verbose,
         )
     else:
         raise Exception('invalid datatype: ' + str(datatype))

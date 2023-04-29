@@ -91,7 +91,7 @@ dataset_license_filenames = ['LICENSE-CC0']
 
 styles: toolcli.StyleTheme = {
     'title': 'bold #00e100',
-    'metavar': '#e5e9f0',
+    'metavar': 'bold #e5e9f0',
     'description': '#aaaaaa',
     'content': '#00B400',
     'option': 'bold #e5e9f0',
