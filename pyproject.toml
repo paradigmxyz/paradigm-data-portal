@@ -47,3 +47,9 @@ strict = true
 implicit_reexport = true
 files = ["pdp"]
 
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+asyncio_mode = 'auto'
+
