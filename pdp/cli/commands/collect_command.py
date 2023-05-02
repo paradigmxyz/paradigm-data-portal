@@ -10,6 +10,16 @@ import pdp
 if typing.TYPE_CHECKING:
     import ctc.spec
 
+    class StandardCollectKwargs(typing.TypedDict):
+        start_block: int
+        end_block: int
+        output_dir: str
+        network: str
+        chunk_size: int | None
+        output_filetype: str | None
+        executor: typing.Literal['parallel', 'serial']
+        verbose: bool
+
 
 help_message = """collect a dataset
 
@@ -59,6 +69,16 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'help': 'output additional information',
                 'action': 'store_true',
             },
+            {
+                'name': '--extension',
+                'help': 'extension module.function for performing dataset collection',
+                'hidden': True,
+            },
+            {
+                'name': '--parameters',
+                'help': 'extra parameters given to dataset collection function',
+                'hidden': True,
+            },
         ],
         'examples': [
             'ethereum_contracts',
@@ -78,19 +98,20 @@ def collect_command(
     parquet: bool,
     serial: bool,
     verbose: bool,
+    extension: str | None,
+    parameters: str | None,
 ) -> None:
-    #
-    # # parse inputs
-    #
+
+    # get context
     parsed = pdp.parse_dataset_name(dataset)
     datatype = parsed['datatype']
     network = parsed['network']
-
     if rpc is None:
         context: ctc.spec.Context = {'network': network}
     else:
         context = {'network': network, 'provider': rpc}
 
+    # get block range
     if blocks is None:
         ctc = pdp.get_ctc()
         start_block = 0
@@ -114,7 +135,12 @@ def collect_command(
             end_block = ctc.rpc.sync_eth_block_number(context=context)
         else:
             end_block = int(end_block_str)
+    if chunk_size is not None:
+        chunk_size_int = int(chunk_size)
+    else:
+        chunk_size_int = None
 
+    # parse output parameters
     if output_dir is None:
         data_root = pdp.get_data_root(require=False)
         if data_root is None or data_root == '':
@@ -123,12 +149,6 @@ def collect_command(
             )
         else:
             output_dir = os.path.join(data_root, dataset)
-
-    if chunk_size is not None:
-        chunk_size_int = int(chunk_size)
-    else:
-        chunk_size_int = None
-
     if parquet:
         output_filetype = 'parquet'
     elif csv:
@@ -141,6 +161,28 @@ def collect_command(
     else:
         executor = 'parallel'
 
+    # collect parameters
+    if parameters is not None:
+        import ast
+
+        extra_kwargs = ast.literal_eval(parameters)
+        if not isinstance(extra_kwargs, dict):
+            raise Exception(
+                'extra parameters should be specified with dict syntax'
+            )
+    else:
+        extra_kwargs = {}
+    standard_kwargs: StandardCollectKwargs = {
+        'start_block': start_block,
+        'end_block': end_block,
+        'output_dir': output_dir,
+        'network': network,
+        'chunk_size': chunk_size_int,
+        'output_filetype': output_filetype,
+        'executor': executor,
+        'verbose': verbose,
+    }
+
     #
     # # perform collection
     #
@@ -148,42 +190,33 @@ def collect_command(
     if datatype == 'contracts':
         from pdp.datasets import contracts
 
-        contracts.collect_contracts_dataset(
-            start_block=start_block,
-            end_block=end_block,
-            output_dir=output_dir,
-            network=network,
-            chunk_size=chunk_size_int,
-            output_filetype=output_filetype,
-            executor=executor,
-            verbose=verbose,
-        )
+        contracts.collect_contracts_dataset(**standard_kwargs, **extra_kwargs)
+
     elif datatype == 'native_transfers':
         from pdp.datasets import native_transfers
 
         native_transfers.collect_native_transfers_dataset(
-            start_block=start_block,
-            end_block=end_block,
-            output_dir=output_dir,
-            network=network,
-            chunk_size=chunk_size_int,
-            output_filetype=output_filetype,
-            executor=executor,
-            verbose=verbose,
+            **standard_kwargs, **extra_kwargs
         )
+
     elif datatype == 'slots':
         from pdp.datasets import slots
 
-        slots.collect_slots_dataset(
-            start_block=start_block,
-            end_block=end_block,
-            output_dir=output_dir,
-            network=network,
-            chunk_size=chunk_size_int,
-            output_filetype=output_filetype,
-            executor=executor,
-            verbose=verbose,
-        )
+        slots.collect_slots_dataset(**standard_kwargs, **extra_kwargs)
+
+    elif extension is not None:
+        import importlib
+
+        try:
+            *module_pieces, function_name = extension.split('.')
+            module = importlib.import_module('.'.join(module_pieces))
+            function = getattr(module, function_name)
+        except (ValueError, ImportError, AttributeError):
+            print('invalid extension, could not get extension function')
+            return
+
+        function(**standard_kwargs, **extra_kwargs)
+
     else:
         raise Exception('invalid datatype: ' + str(datatype))
 
