@@ -107,4 +107,5 @@ def _sync_trace_blocks(
         )
     except Exception as e:
         print('job', job_name, 'failed:' + str(e))
+        raise e
 

@@ -82,6 +82,7 @@ def _sync_extract_slots(
         )
     except Exception as e:
         print('job', job_name, 'failed:' + str(e))
+        raise e
 
 
 async def _async_extract_slots(
