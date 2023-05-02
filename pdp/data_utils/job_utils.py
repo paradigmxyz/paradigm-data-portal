@@ -65,12 +65,43 @@ class BlockChunkJobs(tooljob.Batch):
         i: int | None = None,
         *,
         job_data: tooljob.JobData | None = None,
+        parameters: typing.Mapping[str, str] | None = None,
     ) -> str:
+        from tooljob.trackers import multifile_tracker
+
+        # get job data
         if job_data is None:
             if i is None:
                 raise Exception('must specify job_data or i')
             job_data = self.get_job_data(i)
-        return self.get_job_list_name() + '__' + self.get_block_range_str(i)
+
+        # get output_name
+        if parameters is not None:
+            output_name = parameters.get('output_name')
+        else:
+            output_name = None
+
+        # create name
+        if (
+            isinstance(self.tracker, multifile_tracker.MultifileTracker)
+            and output_name is None
+        ):
+            # get ctc
+            from . import collect_utils
+            ctc = collect_utils.get_ctc()
+            import ctc.config
+
+            # handle parameters for multi-output job name
+            network: str = ctc.config.get_context_network_name(self.context)
+            if parameters is None:
+                raise Exception('must specify output_name in parameters')
+            output_name = parameters['output_name']
+            block_range = self.get_block_range_str(i)
+            return network + '__' + output_name + '__' + block_range
+
+        else:
+            # use vanilla job name
+            return self.get_job_list_name() + '__' + self.get_block_range_str(i)
 
     def parse_job_name(self, name: str) -> typing.Mapping[str, typing.Any]:
         block_range = name.split('__')[-1]
