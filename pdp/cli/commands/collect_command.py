@@ -61,10 +61,6 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'action': 'store_true',
             },
             {
-                'name': '--chunk-size',
-                'help': 'blocks per chunk',
-            },
-            {
                 'name': ('-v', '--verbose'),
                 'help': 'output additional information',
                 'action': 'store_true',
@@ -83,7 +79,7 @@ def get_command_spec() -> toolcli.CommandSpec:
         'examples': [
             'ethereum_contracts',
             'ethereum_native_transfers',
-            'ethereum_slots',
+            'ethereum_slots --blocks 14_000_000:14_100_000',
         ],
     }
 
@@ -93,7 +89,6 @@ def collect_command(
     blocks: str | None,
     rpc: str | None,
     output_dir: str | None,
-    chunk_size: str | None,
     csv: bool,
     parquet: bool,
     serial: bool,
@@ -125,7 +120,17 @@ def collect_command(
             )
             print('    `:end_block`             (use block 0 as start_block)')
             return
-        start_block_str, end_block_str = blocks.split(':')
+
+        if blocks.count(':') == 1:
+            start_block_str, end_block_str = blocks.split(':')
+        elif blocks.count(':') == 2:
+            start_block_str, end_block_str, chunk_size_str = blocks.split(':')
+            if chunk_size_str == '':
+                chunk_size_int = None
+            else:
+                chunk_size_int = int(chunk_size_str)
+                if chunk_size_int < 1:
+                    raise Exception('chunk_size must be >= 1')
         if start_block_str == '':
             start_block = 0
         else:
@@ -135,10 +140,6 @@ def collect_command(
             end_block = ctc.rpc.sync_eth_block_number(context=context)
         else:
             end_block = int(end_block_str)
-    if chunk_size is not None:
-        chunk_size_int = int(chunk_size)
-    else:
-        chunk_size_int = None
 
     # parse output parameters
     if output_dir is None:
