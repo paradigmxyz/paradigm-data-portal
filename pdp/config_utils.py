@@ -29,9 +29,29 @@ def get_data_root(*, require: bool = True) -> str | None:
     return data_root
 
 
-def get_dataset_path_template(
+def get_dataset_glob(
     dataset: str | None = None,
     table: str | None = None,
+    *,
+    network: str | int | None = None,
+    datatype: str | None = None,
+) -> str:
+    dataset_path = get_dataset_local_path(
+        dataset=dataset,
+        network=network,
+        datatype=datatype,
+    )
+
+    if table is None:
+        filename = '*.parquet'
+    else:
+        filename = table + '_*.parquet'
+
+    return os.path.join(dataset_path, filename)
+
+
+def get_dataset_local_path(
+    dataset: str | None = None,
     *,
     network: str | int | None = None,
     datatype: str | None = None,
@@ -45,12 +65,7 @@ def get_dataset_path_template(
             datatype=datatype, network=network
         )
 
-    if table is None:
-        filename = '*.parquet'
-    else:
-        filename = table + '_*.parquet'
-
-    return os.path.join(get_data_root(), dataset, filename)
+    return os.path.join(get_data_root(), dataset)
 
 
 def get_local_datasets(

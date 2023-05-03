@@ -41,7 +41,7 @@ def query(
     if source_path is None:
         if network is None:
             raise Exception('must specify network (e.g. network=\'ethereum\')')
-        source_path = config_utils.get_dataset_path_template(
+        source_path = config_utils.get_dataset_glob(
             network=network,
             datatype=datatype,
             dataset=dataset,
@@ -78,9 +78,9 @@ def query(
         # maintain order if unique_sort equals output sort
         if unique_sort is not None:
             lf = lf.sort(unique_sort, descending=unique_descending)
-            already_sorted: bool = _polars_exprs_equal(
-                sort, unique_sort
-            ) and (descending == unique_descending)
+            already_sorted: bool = _polars_exprs_equal(sort, unique_sort) and (
+                descending == unique_descending
+            )
         else:
             already_sorted = False
 
