@@ -24,7 +24,7 @@ if typing.TYPE_CHECKING:
         datatype: str
         network: str
         files: typing.Sequence[FileMetadata]
-        schema: toolsql.DBSchemaShorthand
+        schema: toolsql.DBSchema
 
     class DatasetManifestSlim(typing.TypedDict):
         """manifest of a particular dataset"""
@@ -36,7 +36,7 @@ if typing.TYPE_CHECKING:
         network: str
         n_files: int
         n_bytes: int
-        schema: toolsql.DBSchemaShorthand
+        schema: toolsql.DBSchema
 
     class FileMetadata(typing.TypedDict):
         """metadata of a dataset file"""

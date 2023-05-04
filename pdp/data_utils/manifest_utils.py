@@ -268,6 +268,7 @@ def create_dataset_manifest(
             schema = module.schema
         else:
             raise Exception('could not find schema for dataset')
+    schema_normalized = toolsql.normalize_shorthand_db_schema(schema)
     print('creating manifest for', name, version)
 
     # gather files
@@ -317,7 +318,7 @@ def create_dataset_manifest(
         'datatype': datatype,
         'network': network,
         'files': files,
-        'schema': schema,
+        'schema': schema_normalized,
     }
 
     # save manifest
