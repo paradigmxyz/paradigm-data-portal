@@ -71,7 +71,8 @@ async def _async_trace_blocks(
 ) -> None:
     import polars as pl
 
-    ctc = pdp.get_ctc()
+    pdp.ensure_ctc()
+    import ctc
     import ctc.rpc
     from ctc.toolbox import pl_utils
 

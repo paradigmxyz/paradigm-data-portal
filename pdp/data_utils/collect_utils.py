@@ -6,7 +6,7 @@ if typing.TYPE_CHECKING:
     import types
 
 
-def get_ctc() -> types.ModuleType:
+def ensure_ctc() -> types.ModuleType:
     try:
         import ctc
 

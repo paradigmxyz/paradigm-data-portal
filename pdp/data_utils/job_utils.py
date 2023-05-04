@@ -88,7 +88,8 @@ class BlockChunkJobs(tooljob.Batch):
         ):
             # get ctc
             from . import collect_utils
-            ctc = collect_utils.get_ctc()
+            collect_utils.ensure_ctc()
+            import ctc
             import ctc.config
 
             # handle parameters for multi-output job name
