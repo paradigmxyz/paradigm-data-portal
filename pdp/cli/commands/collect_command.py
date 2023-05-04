@@ -67,12 +67,12 @@ def get_command_spec() -> toolcli.CommandSpec:
             },
             {
                 'name': '--extension',
-                'help': 'extension module.function for performing dataset collection',
+                'help': 'extension module.function for dataset collection',
                 'hidden': True,
             },
             {
                 'name': '--parameters',
-                'help': 'extra parameters given to dataset collection function',
+                'help': 'extra parameters given to collection function',
                 'hidden': True,
             },
         ],
@@ -96,7 +96,6 @@ def collect_command(
     extension: str | None,
     parameters: str | None,
 ) -> None:
-
     # get context
     parsed = pdp.parse_dataset_name(dataset)
     datatype = parsed['datatype']
@@ -108,7 +107,8 @@ def collect_command(
 
     # get block range
     if blocks is None:
-        ctc = pdp.get_ctc()
+        pdp.ensure_ctc()
+        import ctc
         start_block = 0
         end_block = ctc.rpc.sync_eth_block_number(context=context)
     else:
@@ -136,7 +136,8 @@ def collect_command(
         else:
             start_block = int(start_block_str)
         if end_block_str == '':
-            ctc = pdp.get_ctc()
+            pdp.ensure_ctc()
+            import ctc
             end_block = ctc.rpc.sync_eth_block_number(context=context)
         else:
             end_block = int(end_block_str)
@@ -209,8 +210,16 @@ def collect_command(
         import importlib
 
         try:
-            *module_pieces, function_name = extension.split('.')
-            module = importlib.import_module('.'.join(module_pieces))
+            module_path = (
+                extension
+                + '.datasets.'
+                + datatype
+                + '.'
+                + datatype
+                + '_collect'
+            )
+            module = importlib.import_module(module_path)
+            function_name = 'collect_' + datatype + '_dataset'
             function = getattr(module, function_name)
         except (ValueError, ImportError, AttributeError):
             print('invalid extension, could not get extension function')
