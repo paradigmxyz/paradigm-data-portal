@@ -10,7 +10,7 @@ import pdp
 def get_command_spec() -> toolcli.CommandSpec:
     return {
         'f': download_command,
-        'help': 'download files for a dataset',
+        'help': 'download dataset directly from Paradigm data portal',
         'args': [
             {'name': 'dataset', 'help': 'dataset to list info of'},
             {'name': '--output-dir', 'help': 'output directory path'},

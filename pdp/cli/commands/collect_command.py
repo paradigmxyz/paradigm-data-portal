@@ -21,7 +21,7 @@ if typing.TYPE_CHECKING:
         verbose: bool
 
 
-help_message = """collect a dataset
+help_message = """collect a dataset from RPC nodes or other sources
 
 collecting on-chain datasets requires ctc to be installed and configured"""
 
@@ -29,7 +29,7 @@ collecting on-chain datasets requires ctc to be installed and configured"""
 def get_command_spec() -> toolcli.CommandSpec:
     return {
         'f': collect_command,
-        'help': 'collect a dataset',
+        'help': help_message,
         'args': [
             {'name': 'dataset', 'help': 'name of dataset to collect'},
             {
