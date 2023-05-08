@@ -38,25 +38,20 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'help': 'output directory, omit to use PDP_DATA_ROOT',
             },
             {
-                'name': '--blocks',
-                'help': 'block range, as `\[start_block]:\[end_block]`',
+                'name': ('-b', '--blocks'),
+                'help': 'block range, as start_block:end_block:chunk_size',
             },
             {
-                'name': '--rpc',
+                'name': ('-r', '--rpc'),
                 'help': 'rpc node url, omit to use ctc configuration',
             },
             {
-                'name': '--csv',
-                'help': 'use csv as output format',
-                'action': 'store_true',
+                'name': ('-f', '--format'),
+                'dest': 'output_format',
+                'help': 'format of output (parquet or csv)',
             },
             {
-                'name': '--parquet',
-                'help': 'use parquet as output_format',
-                'action': 'store_true',
-            },
-            {
-                'name': '--serial',
+                'name': ('-s', '--serial'),
                 'help': 'use serial execution instead of parallel',
                 'action': 'store_true',
             },
@@ -66,12 +61,12 @@ def get_command_spec() -> toolcli.CommandSpec:
                 'action': 'store_true',
             },
             {
-                'name': '--extension',
+                'name': ('-e', '--extension'),
                 'help': 'extension module.function for dataset collection',
                 'hidden': True,
             },
             {
-                'name': '--parameters',
+                'name': ('-p', '--parameters'),
                 'help': 'extra parameters given to collection function',
                 'hidden': True,
             },
@@ -89,8 +84,7 @@ def collect_command(
     blocks: str | None,
     rpc: str | None,
     output_dir: str | None,
-    csv: bool,
-    parquet: bool,
+    output_format: str | None,
     serial: bool,
     verbose: bool,
     extension: str | None,
@@ -108,39 +102,20 @@ def collect_command(
     # get block range
     if blocks is None:
         pdp.ensure_ctc()
-        import ctc
+        import ctc.rpc
+
         start_block = 0
         end_block = ctc.rpc.sync_eth_block_number(context=context)
+        chunk_size_int = None
     else:
-        if ':' not in blocks:
-            print('must specify block range using one of these formats:')
-            print('    `start_block:end_block`')
-            print(
-                '    `start_block:`           (use latest block as end_block)'
-            )
-            print('    `:end_block`             (use block 0 as start_block)')
-            return
+        pdp.ensure_ctc()
+        import ctc.cli.cli_utils
 
-        if blocks.count(':') == 1:
-            start_block_str, end_block_str = blocks.split(':')
-        elif blocks.count(':') == 2:
-            start_block_str, end_block_str, chunk_size_str = blocks.split(':')
-            if chunk_size_str == '':
-                chunk_size_int = None
-            else:
-                chunk_size_int = int(chunk_size_str)
-                if chunk_size_int < 1:
-                    raise Exception('chunk_size must be >= 1')
-        if start_block_str == '':
-            start_block = 0
-        else:
-            start_block = int(start_block_str)
-        if end_block_str == '':
-            pdp.ensure_ctc()
-            import ctc
-            end_block = ctc.rpc.sync_eth_block_number(context=context)
-        else:
-            end_block = int(end_block_str)
+        (
+            start_block,
+            end_block,
+            chunk_size_int,
+        ) = ctc.cli.cli_utils.sync_parse_block_chunks(blocks)
 
     # parse output parameters
     if output_dir is None:
@@ -151,12 +126,6 @@ def collect_command(
             )
         else:
             output_dir = os.path.join(data_root, dataset)
-    if parquet:
-        output_filetype = 'parquet'
-    elif csv:
-        output_filetype = 'csv'
-    else:
-        output_filetype = None
 
     if serial:
         executor: typing.Literal['parallel', 'serial'] = 'serial'
@@ -180,7 +149,7 @@ def collect_command(
         'output_dir': output_dir,
         'network': network,
         'chunk_size': chunk_size_int,
-        'output_filetype': output_filetype,
+        'output_filetype': output_format,
         'executor': executor,
         'verbose': verbose,
     }
