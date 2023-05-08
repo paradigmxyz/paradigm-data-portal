@@ -88,6 +88,7 @@ class BlockChunkJobs(tooljob.Batch):
         ):
             # get ctc
             from . import collect_utils
+
             collect_utils.ensure_ctc()
             import ctc
             import ctc.config
@@ -137,14 +138,23 @@ class BlockChunkJobs(tooljob.Batch):
     # # summary
     #
 
-    def print_additional_status(self) -> None:
+    def get_attribute_list(self) -> typing.Sequence[int]:
+        attributes = super().get_attribute_list()
+        end_block_index = attributes.index('end_block')
+        attributes.insert(end_block_index + 1, 'n_blocks')
+        return attributes
+
+    def get_formatted_attribute(self, key: str) -> str | None:
         import toolstr
 
-        toolstr.print_bullet(
-            key='n_blocks',
-            value=self.end_block - self.start_block + 1,
-            styles=self.styles,
-        )
+        if key == 'end_block':
+            return '  ' + str(self.end_block)
+        elif key == 'n_blocks':
+            return toolstr.format(self.end_block - self.start_block)
+        elif key == 'context':
+            return None
+        else:
+            return super().get_formatted_attribute(key)
 
     def print_additional_conclusion(
         self,
@@ -157,30 +167,22 @@ class BlockChunkJobs(tooljob.Batch):
         duration = end_time - start_time
         n_blocks = len(jobs) * self.chunk_size
         bps = n_blocks / duration
+        self.print_bullet(key='blocks covered', value=toolstr.format(n_blocks))
         toolstr.print_bullet(
-            key='blocks covered',
-            value=toolstr.format(n_blocks),
-            styles=self.styles,
-        )
-        toolstr.print_bullet(
-            key='blocks per second',
-            value=toolstr.format(bps, decimals=2),
-            styles=self.styles,
+            'blocks per second',
+            toolstr.format(bps, decimals=2),
         )
         toolstr.print_bullet(
             key='blocks per minute',
             value=toolstr.format(bps * 60, decimals=2),
-            styles=self.styles,
         )
         toolstr.print_bullet(
             key='blocks per hour',
             value=toolstr.format(bps * 60 * 60, decimals=2),
-            styles=self.styles,
         )
         toolstr.print_bullet(
             key='blocks per day',
             value=toolstr.format(bps * 86400, decimals=2),
-            styles=self.styles,
         )
 
     def summarize_blocks_per_second(
