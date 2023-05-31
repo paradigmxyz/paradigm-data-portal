@@ -16,7 +16,7 @@ class BlockChunkJobs(tooljob.Batch):
     end_block: int
     chunk_size: int
     context: ctc.spec.Context | None = None
-    tracker: tooljob.trackers.file_tracker.FileTracker
+    tracker: tooljob.trackers.file_tracker.FileTracker | tooljob.trackers.multifile_tracker.MultifileTracker
 
     def __init__(
         self,
@@ -84,7 +84,9 @@ class BlockChunkJobs(tooljob.Batch):
         # create name
         if (
             isinstance(self.tracker, multifile_tracker.MultifileTracker)
-            and output_name is None
+            and output_name is not None
+            and parameters is not None
+            and parameters.get('output_name') is not None
         ):
             # get ctc
             from . import collect_utils
@@ -95,11 +97,8 @@ class BlockChunkJobs(tooljob.Batch):
 
             # handle parameters for multi-output job name
             network: str = ctc.config.get_context_network_name(self.context)
-            if parameters is None:
-                raise Exception('must specify output_name in parameters')
-            output_name = parameters['output_name']
             block_range = self.get_block_range_str(i)
-            return network + '__' + output_name + '__' + block_range
+            return network + '_' + output_name + '__' + block_range
 
         else:
             # use vanilla job name
@@ -169,8 +168,8 @@ class BlockChunkJobs(tooljob.Batch):
         bps = n_blocks / duration
         self.print_bullet(key='blocks covered', value=toolstr.format(n_blocks))
         toolstr.print_bullet(
-            'blocks per second',
-            toolstr.format(bps, decimals=2),
+            key='blocks per second',
+            value=toolstr.format(bps, decimals=2),
         )
         toolstr.print_bullet(
             key='blocks per minute',

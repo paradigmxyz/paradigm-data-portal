@@ -190,8 +190,8 @@ def collect_command(
             module = importlib.import_module(module_path)
             function_name = 'collect_' + datatype + '_dataset'
             function = getattr(module, function_name)
-        except (ValueError, ImportError, AttributeError):
-            print('invalid extension, could not get extension function')
+        except (ValueError, ImportError, AttributeError) as e:
+            print('invalid extension, could not get extension function: ' + str(e.args[0]))
             return
 
         function(**standard_kwargs, **extra_kwargs)
