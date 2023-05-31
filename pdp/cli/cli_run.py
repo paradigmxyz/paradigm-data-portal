@@ -55,14 +55,15 @@ def run_cli(raw_command: str | None = None) -> None:
         ('collect',): 'pdp.cli.commands.collect_command',
         ('dataset',): 'pdp.cli.commands.dataset_command',
         ('download',): 'pdp.cli.commands.download_command',
+        ('help',): 'toolcli.command_utils.standard_subcommands.help_command',
         ('ls',): 'pdp.cli.commands.ls_command',
         ('package',): 'pdp.cli.commands.package_command',
+        ('update',): 'pdp.cli.commands.update_command',
         ('upload',): 'pdp.cli.commands.upload_command',
         ('validate',): 'pdp.cli.commands.validate_command',
         (
             'version',
         ): 'toolcli.command_utils.standard_subcommands.version_command',
-        ('help',): 'toolcli.command_utils.standard_subcommands.help_command',
     }
 
     config: toolcli.CLIConfig = {
