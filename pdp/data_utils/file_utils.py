@@ -45,13 +45,16 @@ def download_files(
     print('done')
 
 
-def download_file(url: str) -> None:
+def download_file(url: str, output_path: str | None = None) -> None:
     """download a file"""
     import subprocess
 
     print()
     print('downloading', url)
-    subprocess.call(['curl', url, '--output', os.path.basename(url)])
+    if output_path is None:
+        output_path = os.path.basename(url)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    subprocess.call(['curl', url, '--output', output_path])
 
 
 def get_file_hash(path: str) -> str:
