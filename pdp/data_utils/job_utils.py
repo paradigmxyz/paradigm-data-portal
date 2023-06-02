@@ -137,8 +137,9 @@ class BlockChunkJobs(tooljob.Batch):
     # # summary
     #
 
-    def get_attribute_list(self) -> typing.Sequence[int]:
+    def get_attribute_list(self) -> typing.Sequence[str]:
         attributes = super().get_attribute_list()
+        attributes = list(attributes)
         end_block_index = attributes.index('end_block')
         attributes.insert(end_block_index + 1, 'n_blocks')
         return attributes
@@ -206,7 +207,7 @@ class BlockChunkJobs(tooljob.Batch):
 
     def plot_blocks_per_second(self, sample_time: int = 60) -> None:
         import matplotlib.pyplot as plt  # type: ignore
-        import toolplot  # type: ignore
+        import toolplot
 
         df = self.summarize_blocks_per_second(sample_time=sample_time)
 

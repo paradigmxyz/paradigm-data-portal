@@ -8,6 +8,7 @@ from . import slots_spec
 
 if typing.TYPE_CHECKING:
     import ctc.spec
+    import tooljob.trackers.file_tracker
 
 
 def collect_slots_dataset(
@@ -21,7 +22,6 @@ def collect_slots_dataset(
     executor: typing.Literal['serial', 'parallel'] = 'parallel',
     verbose: bool = False,
 ) -> None:
-
     if chunk_size is None:
         chunk_size = 1000
     if output_filetype is None:
@@ -50,6 +50,8 @@ def collect_slots_dataset(
 
 
 class _ExtractSlots(pdp.BlockChunkJobs):
+    tracker: tooljob.trackers.file_tracker.FileTracker
+
     def execute_job(self, i: int) -> typing.Any:
         job_data = self.get_job_data(i)
         job_name = self.get_job_name(i)

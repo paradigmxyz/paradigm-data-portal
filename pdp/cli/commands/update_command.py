@@ -40,7 +40,7 @@ def get_command_spec() -> toolcli.CommandSpec:
 def update_command(
     datasets: typing.Sequence[str],
     all_datasets: bool,
-    method: str,
+    method: typing.Literal['download', 'collect'],
 ) -> None:
     if all_datasets:
         datasets = pdp.get_local_datasets()

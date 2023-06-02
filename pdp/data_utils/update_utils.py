@@ -3,8 +3,8 @@ from __future__ import annotations
 import typing
 
 
-def update_dataset(
-    dataset_name: str,
+def update(
+    dataset: str,
     *,
     method: typing.Literal['download', 'collect'] = 'download',
 ) -> None:

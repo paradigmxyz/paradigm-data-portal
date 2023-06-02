@@ -8,6 +8,7 @@ from . import contracts_spec
 
 if typing.TYPE_CHECKING:
     import ctc.spec
+    import tooljob.trackers.file_tracker
 
 
 def collect_contracts_dataset(
@@ -49,6 +50,8 @@ def collect_contracts_dataset(
 
 
 class _ExtractContracts(pdp.BlockChunkJobs):
+    tracker: tooljob.trackers.file_tracker.FileTracker
+
     def execute_job(self, i: int) -> typing.Any:
         job_data = self.get_job_data(i)
         job_name = self.get_job_name(i)
