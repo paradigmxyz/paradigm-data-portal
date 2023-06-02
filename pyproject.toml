@@ -32,7 +32,7 @@ dependencies = [
     'requests >=2.20.0, <3',
     'toolcli >=0.6.13, <0.7',
     'toolstr >=0.9.3, <0.10',
-    'tooljob >=0.1.5, <0.2',
+    'tooljob >=0.1.6, <0.2',
 ]
 
 [project.optional-dependencies]
