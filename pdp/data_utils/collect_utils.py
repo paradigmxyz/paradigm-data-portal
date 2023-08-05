@@ -12,5 +12,5 @@ def ensure_ctc() -> types.ModuleType:
 
         return ctc
     except ImportError:
-        raise Exception('must install ctc to use this functionality')
+        raise Exception('`pip install checkthechain` to use this functionality')
 
